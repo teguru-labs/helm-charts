@@ -63,21 +63,7 @@ initContainers: []
 ##   - name: "mycredentials"
 ##     configMap:
 ##       name: "mysecretname"
-# volumes: []
-volumes:
-  - name: "mydata"
-    persistentVolumeClaim:
-      claimName: "mypvcname"
-      requests:
-        size: 10Gi
-        storageClass: "standard"
-        accessModes: ["ReadWriteOnce"]
-  - name: "myconfig"
-    configMap:
-      name: "myconfigmapname"
-  - name: "mycredentials"
-    configMap:
-      name: "mysecretname"
+volumes: []
 
 ## Service Account for Pod to use.
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
@@ -198,10 +184,11 @@ ingress:
   ## E.g.
   ## rules:
   ##   - host: chart-example.local
-  ##     paths:
-  ##       - path: /
-  ##         pathType: ImplementationSpecific
-  ##         servicePort: 80
+  ##     paths: # optional
+  ##       - path: / # optional, default: /
+  ##         pathType: ImplementationSpecific # optional, default is `ImplementationSpecific`
+  ##         servicePort: 80 # optional, default the first port in Service definition
+  ##         serviceName: "fsdfds" # optional, override the generated service name
   rules: []
 
   ## Ingress TLS configuration

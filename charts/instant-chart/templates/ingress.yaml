@@ -11,8 +11,8 @@ metadata:
   name: {{ $fullname }}
   labels:
     {{- include "instant-chart.labels" . | nindent 4 }}
-  annotations:
   {{- with .Values.ingress.annotations }}
+  annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
@@ -44,7 +44,7 @@ spec:
         {{- end }}
         backend:
           {{- include "common.ingress.backend" (dict
-            "serviceName" $fullname
+            "serviceName" (default $fullname .serviceName)
             "servicePort" (default 80 .servicePort)
             "context" $
           ) | nindent 10 }}
