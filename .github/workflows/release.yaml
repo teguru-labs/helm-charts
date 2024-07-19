@@ -31,6 +31,7 @@ jobs:
         with:
           charts_dir: charts
           config: cr.yaml
+          packages_with_index: true
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: Login to GHCR
