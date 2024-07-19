@@ -2,3 +2,4 @@
 # see: https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes
 generate-release-notes: true
 skip-existing: true
+package-path: packages
