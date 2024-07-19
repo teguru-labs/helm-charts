@@ -78,12 +78,13 @@ See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command docu
 
 ### Service parameters
 
-| Name                  | Description                                                                | Value       |
-| --------------------- | -------------------------------------------------------------------------- | ----------- |
-| `service.enabled`     | Specifies whether a service should be created.                             | `true`      |
-| `service.type`        | The type of the service (ClusterIP, NodePort, LoadBalancer, ExternalName). | `ClusterIP` |
-| `service.ports`       | The ports that the service should expose.                                  |             |
-| `service.annotations` | Annotations to add to the service.                                         | `{}`        |
+| Name                   | Description                                                                | Value       |
+| ---------------------- | -------------------------------------------------------------------------- | ----------- |
+| `service.enabled`      | Specifies whether a service should be created.                             | `true`      |
+| `service.type`         | The type of the service (ClusterIP, NodePort, LoadBalancer, ExternalName). | `ClusterIP` |
+| `service.ports`        | The ports that the service should expose.                                  |             |
+| `service.annotations`  | Annotations to add to the service.                                         | `{}`        |
+| `service.externalName` | Set external name when using ExternalName Service                          | `{}`        |
 
 ### Ingress parameters
 

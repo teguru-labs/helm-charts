@@ -39,9 +39,7 @@ replicas: 1
 ##         mountPath: "/data"
 ##         subPath: "my-subpath"
 ##         readOnly: true
-# containers: []
-containers:
-  - image: nginx
+containers: []
 
 ## Additional initialization containers
 ##
@@ -161,6 +159,11 @@ service:
   ## Annotations to add to the service
   ##
   annotations: {}
+
+  ## Add additional fields to the service spec: externalName, externalIPs, .etc.
+  ##
+  ## externalName: ""
+  ## externalIPs: []
 
 ## Ingress configuration
 ## ref https://kubernetes.io/docs/concepts/services-networking/ingress
