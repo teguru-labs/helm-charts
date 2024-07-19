@@ -1,0 +1,17 @@
+{{- if .Values.configMaps -}}
+{{- range $name, $value := .Values.configMaps }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- include "instant-chart.labels" $ | nindent 4 }}
+  {{- with $.Values.global.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+data:
+  {{- toYaml $value | nindent 2 }}
+---
+{{- end }}
+{{- end }}

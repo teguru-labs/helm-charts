@@ -1,0 +1,25 @@
+{{- range .Values.volumes -}}
+{{- if and .persistentVolumeClaim .persistentVolumeClaim.claimName -}}
+{{- $claimName := .persistentVolumeClaim.claimName -}}
+{{- with .persistentVolumeClaim.requests -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ $claimName }}
+  labels:
+    {{- include "instant-chart.labels" $ | nindent 4 }}
+  {{- with $.Values.global.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  storageClassName: {{ default .storageClass $.Values.global.storageClass | default $.Values.global.defaultStorageClass }}
+  accessModes:
+    {{- default (list "ReadwriteOnce") .accessModes | toYaml | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ default "1Gi" .size }}
+---
+{{- end }}
+{{- end }}
+{{- end }}

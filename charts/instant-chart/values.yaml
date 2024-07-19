@@ -1,0 +1,234 @@
+## Override the default chart name
+##
+nameOverride: ""
+
+## Override the full name of resources
+##
+fullnameOverride: ""
+
+## Global config will apply to all resources
+##
+global:
+  appVersion: ""
+
+  ## Add additional labels
+  ##
+  labels: {}
+
+  ## Add additional labels
+  ##
+  annotations: {}
+
+  ## Default storage class
+  ##
+  defaultStorageClass: ""
+
+## Number of pod replicas
+##
+replicas: 1
+
+## A list of containers belonging to the pod
+## E.g.
+## containers:
+##   - name: "my-container"
+##     image: "my-image:latest"
+##     ports:
+##       - containerPort: 80
+##     volumeMounts:
+##       - name: "my-volume"
+##         mountPath: "/data"
+##         subPath: "my-subpath"
+##         readOnly: true
+# containers: []
+containers:
+  - image: nginx
+
+## Additional initialization containers
+##
+initContainers: []
+
+## A list of volumes to be added to the pod
+## E.g.
+## volumes:
+##   - name: "mydata"
+##     persistentVolumeClaim:
+##       claimName: "mypvcname"
+##       requests:
+##         size: 10Gi
+##         storageClass: "standard"
+##         accessModes: ["ReadWriteOnce"]
+##   - name: "myconfig"
+##     configMap:
+##       name: "myconfigmapname"
+##   - name: "mycredentials"
+##     configMap:
+##       name: "mysecretname"
+# volumes: []
+volumes:
+  - name: "mydata"
+    persistentVolumeClaim:
+      claimName: "mypvcname"
+      requests:
+        size: 10Gi
+        storageClass: "standard"
+        accessModes: ["ReadWriteOnce"]
+  - name: "myconfig"
+    configMap:
+      name: "myconfigmapname"
+  - name: "mycredentials"
+    configMap:
+      name: "mysecretname"
+
+## Service Account for Pod to use.
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+##
+serviceAccount:
+  create: true
+  name: ""
+  automount: true
+  annotations: {}
+
+## Reference to one or more secrets to be used when pulling images
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+## E.g.
+## imagePullSecrets:
+##   - myRegistryKeySecretName
+imagePullSecrets: []
+
+## Create a Secret to provides the registry credentials for pulling private images
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+## E.g.
+## registryLogin:
+##   - server: "https://my.private.registry/v1/"
+##     username: "myuser"
+##     password: "mypassword"
+##     email: ""
+registryLogin: []
+
+## Assign custom affinity rules to the prometheus instance
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+##
+affinity: {}
+
+## Define which Nodes the Pods are scheduled on.
+## ref: https://kubernetes.io/docs/user-guide/node-selection/
+## E.g.
+## nodeSelector:
+##   kubernetes.io/os: linux
+nodeSelector: {}
+
+## Assign Pods to a specific node name
+##
+nodeName: ""
+
+## Tolerations for use with node taints
+## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+## E.g.
+## tolerations:
+##   - key: "example-key"
+##     operator: "Exists"
+##     effect: "NoSchedule"
+tolerations: []
+
+## Enable topology spread constraints to control how Pods are spread across your cluster among failure-domains
+## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/
+##
+topologySpreadConstraints: []
+
+## Define privilege and access control settings for a Pod or Container
+##
+securityContext: {}
+
+## DNS configuration for the pod
+##
+dnsConfig: {}
+
+## Host aliases for the pod
+##
+hostAliases: []
+
+## Overhead for the pod
+##
+overhead: {}
+
+## Readiness gates for the pod
+##
+readinessGates: []
+
+## Service configuration
+##
+service:
+  enabled: true
+
+  ## The type of the service (ClusterIP, NodePort, LoadBalancer, ExternalName)
+  ##
+  type: ClusterIP
+
+  ## The ports that the service should expose
+  ##
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      protocol: TCP
+
+  ## Annotations to add to the service
+  ##
+  annotations: {}
+
+## Ingress configuration
+## ref https://kubernetes.io/docs/concepts/services-networking/ingress
+##
+ingress:
+  enabled: false
+
+  ## Ingress class name
+  ## https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class.
+  ##
+  className: ""
+
+  ## Optionally specify additional annotations to the ingress.
+  ## E.g.
+  ## annotations:
+  ##   kubernetes.io/ingress.class: nginx
+  ##   kubernetes.io/tls-acme: "true"
+  annotations: {}
+
+  ## The list of rules for the ingress. K8s PathType ares: ImplementationSpecific, Prefix, Exact
+  ## E.g.
+  ## rules:
+  ##   - host: chart-example.local
+  ##     paths:
+  ##       - path: /
+  ##         pathType: ImplementationSpecific
+  ##         servicePort: 80
+  rules: []
+
+  ## Ingress TLS configuration
+  ## E.g.
+  ## tls:
+  ##   - secretName: chart-example-tls
+  ##     hosts:
+  ##       - chart-example.local
+  tls: {}
+
+## List of ConfigMaps to create, for storing non-sensitive data
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+## E.g.
+## configMaps:
+##   myappconfig:
+##     APP_ENV: "production"
+##     APP_NAME: "myapp"
+configMaps: {}
+
+## List of Secrets to create, for storing sensitive data
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+## E.g.
+## secrets:
+##   googlecreds:
+##     googlecredentials.json: |-
+##       {"fake":"json"}
+##   myappsecret:
+##     APP_KEY: "mysecretkey"
+##     DATABASE_URL: "postgres://user:password@host:port/dbname"
+secrets: {}
