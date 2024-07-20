@@ -1,4 +1,4 @@
-# Helm Charts
+# DevSuccess101 - Helm Charts
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/devsuccess101)](https://artifacthub.io/packages/search?repo=devsuccess101)
