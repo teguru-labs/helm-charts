@@ -1,4 +1,4 @@
-name: Release Charts
+name: release-charts
 
 on:
   push:
@@ -10,7 +10,6 @@ jobs:
     permissions:
       contents: write # to push chart release and create a release (helm/chart-releaser-action)
       packages: write # needed for ghcr access
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
