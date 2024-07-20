@@ -191,7 +191,7 @@ ingress:
   ##       - path: / # optional, default: /
   ##         pathType: ImplementationSpecific # optional, default is `ImplementationSpecific`
   ##         servicePort: 80 # optional, default the first port in Service definition
-  ##         serviceName: "fsdfds" # optional, override the generated service name
+  ##         serviceName: "" # optional, override the generated service name
   rules: []
 
   ## Ingress TLS configuration
