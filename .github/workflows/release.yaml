@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - charts/**
 
 jobs:
   release:
@@ -35,7 +37,7 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: Login to GHCR
-        uses: docker/login-action@v3.0.0
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
