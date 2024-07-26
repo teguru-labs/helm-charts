@@ -18,7 +18,7 @@ helm repo update
 ### Install Helm Chart
 
 ```bash
-helm upgrade --install [RELEASE_NAME] phe-lab/instant-chart
+helm upgrade --install [RELEASE_NAME] phelab/instant-chart
 ```
 
 See [configuration](#parameters) below.
