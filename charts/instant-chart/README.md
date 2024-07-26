@@ -6,10 +6,10 @@ A Helm chart enables rapid deployment.
 
 1. Kubernetes 1.16+
 2. Helm (preferably v3) installed – instructions are [here](https://helm.sh/docs/intro/install/).
-3. DevSuccess101 Helm repo configured
+3. PheLab Helm repo configured
 
 ```bash
-helm repo add devsuccess101 https://devsuccess101.github.io/helm-charts
+helm repo add phelab https://phe-lab.github.io/helm-charts
 helm repo update
 ```
 
@@ -18,7 +18,7 @@ helm repo update
 ### Install Helm Chart
 
 ```bash
-helm upgrade --install [RELEASE_NAME] devsuccess101/instant-chart
+helm upgrade --install [RELEASE_NAME] phe-lab/instant-chart
 ```
 
 See [configuration](#parameters) below.
