@@ -13,8 +13,8 @@ Please refer to Helm's [documentation](https://helm.sh/docs/) to get started.
 
 Once Helm is set up properly, add the repo as follows:
 
-```console
-helm repo add phelab https://phe-lab.github.io/helm-charts
+```bash
+helm repo add phelab https://charts.phelab.com
 ```
 
 You can then run `helm search repo instant-chart` to see the charts.
