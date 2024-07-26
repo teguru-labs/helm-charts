@@ -9,7 +9,7 @@ A Helm chart enables rapid deployment.
 3. PheLab Helm repo configured
 
 ```bash
-helm repo add phelab https://phe-lab.github.io/helm-charts
+helm repo add phelab https://charts.phelab.com
 helm repo update
 ```
 
