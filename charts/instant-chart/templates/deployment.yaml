@@ -22,16 +22,10 @@ spec:
         {{- include "instant-chart.labels" . | nindent 8 }}
     spec:
       containers:
-      {{- range $index, $container := .Values.containers }}
-      - name: {{ $container.name | default (printf "container-%d" $index) }}
-        {{- omit $container  "name" | toYaml | nindent 8 }}
-      {{- end }}
+      {{- include "instant-chart.containers" (dict "containers" .Values.containers "prefix" "container") | trim | nindent 6 -}}
       {{- with .Values.initContainers }}
       initContainers:
-      {{- range $index, $container := . }}
-      - name: {{ $container.name | default (printf "init-%d" $index) }}
-        {{- omit $container  "name" | toYaml | nindent 8 }}
-      {{- end }}
+      {{- include "instant-chart.containers" (dict "containers" . "prefix" "init") | trim | nindent 6 -}}
       {{- end }}
       {{- if .Values.volumes }}
       volumes:

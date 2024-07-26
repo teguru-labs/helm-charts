@@ -80,3 +80,15 @@ Clean volumes by removing .persistentVolumeClaim.requests
 {{- end -}}
 {{- $cleanVolumes | toYaml | nindent 0 | trim -}}
 {{- end -}}
+
+{{/*
+Generate the container definitions
+Usage:
+{{- include "instant-chart.containers" (dict "containers" .Values.containers "prefix" "container") | trim | nindent 6 -}}
+*/}}
+{{- define "instant-chart.containers" -}}
+{{- range $index, $container := .containers }}
+- name: {{ $container.name | default (printf "%s-%d" $.prefix $index) }}
+  {{- omit $container "name" | toYaml | nindent 2 }}
+{{- end -}}
+{{- end -}}
