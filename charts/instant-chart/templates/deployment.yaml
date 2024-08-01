@@ -30,10 +30,8 @@ spec:
       {{- if .Values.volumes }}
       volumes:
       {{- include "instant-chart.volumes" . | nindent 6 -}}
-      {{- end -}}
-      {{- if .Values.serviceAccount.create }}
-      serviceAccountName: {{ include "instant-chart.serviceAccountName" . }}
       {{- end }}
+      serviceAccountName: {{ include "instant-chart.serviceAccountName" . }}
       {{- if or .Values.registryLogin .Values.imagePullSecrets }}
       imagePullSecrets:
       {{- if .Values.registryLogin }}

@@ -33,7 +33,7 @@ Usage:
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
-{{- end }}
+{{- end -}}
 
 {{/*
 Create the name of the pull secret
