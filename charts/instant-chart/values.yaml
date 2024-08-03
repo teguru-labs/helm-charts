@@ -27,6 +27,12 @@ global:
 ##
 replicas: 1
 
+## Patch container images for using FluxCD HelmRelease.
+## E.g.
+## imagePatches:
+##   my-container: my-image:debian
+imagePatches: {}
+
 ## A list of containers belonging to the pod
 ## E.g.
 ## containers:

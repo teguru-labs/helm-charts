@@ -22,10 +22,10 @@ spec:
         {{- include "instant-chart.labels" . | nindent 8 }}
     spec:
       containers:
-      {{- include "instant-chart.containers" (dict "containers" .Values.containers "prefix" "container") | trim | nindent 6 -}}
+      {{- include "instant-chart.containers" (dict "containers" .Values.containers "prefix" "container" "imagePatches" .Values.imagePatches) | trim | nindent 6 -}}
       {{- with .Values.initContainers }}
       initContainers:
-      {{- include "instant-chart.containers" (dict "containers" . "prefix" "init") | trim | nindent 6 -}}
+      {{- include "instant-chart.containers" (dict "containers" . "prefix" "init" "imagePatches" .Values.imagePatches) | trim | nindent 6 -}}
       {{- end }}
       {{- if .Values.volumes }}
       volumes:

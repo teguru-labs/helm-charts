@@ -87,12 +87,17 @@ Usage:
 {{- include "instant-chart.containers" (dict "containers" .Values.containers "prefix" "container") | trim | nindent 6 -}}
 */}}
 {{- define "instant-chart.containers" -}}
+{{- $imagePatches := .imagePatches | default dict -}}
 {{- range $index, $container := .containers }}
+{{- $name := $container.name | default (printf "%s-%d" $.prefix $index) -}}
+{{- if hasKey $imagePatches $name -}}
+{{- $container = set $container "image" (index $imagePatches $name | default $container.image) -}}
+{{- end -}}
 {{- $defaultPort := 80 -}}
 {{- if and $container.ports (gt (len .ports) 0) -}}
   {{- $defaultPort = (index .ports 0).containerPort | default 80 -}}
 {{- end -}}
-- name: {{ $container.name | default (printf "%s-%d" $.prefix $index) }}
+- name: {{ $name }}
   {{- omit $container "name" "livenessProbe" "readinessProbe" "startupProbe" | toYaml | nindent 2 }}
   {{- if hasKey $container "livenessProbe" }}
   livenessProbe:
