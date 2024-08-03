@@ -39,6 +39,8 @@ replicas: 1
 ##         mountPath: "/data"
 ##         subPath: "my-subpath"
 ##         readOnly: true
+##     livenessProbe:
+##       enabled: true
 containers: []
 
 ## Additional initialization containers

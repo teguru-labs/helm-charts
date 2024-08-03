@@ -88,7 +88,66 @@ Usage:
 */}}
 {{- define "instant-chart.containers" -}}
 {{- range $index, $container := .containers }}
+{{- $defaultPort := 80 }}
+{{- if and $container.ports (gt (len .ports) 0) }}
+  {{- $defaultPort = (index .ports 0).containerPort | default 80 }}
+{{- end }}
 - name: {{ $container.name | default (printf "%s-%d" $.prefix $index) }}
-  {{- omit $container "name" | toYaml | nindent 2 }}
+  {{- omit $container "name" "livenessProbe" "readinessProbe" | toYaml | nindent 2 }}
+  {{- if hasKey $container "livenessProbe" }}
+  livenessProbe:
+    {{- include "instant-chart.probe" (dict
+      "probe" $container.livenessProbe
+      "defaultPort" $defaultPort
+    ) | trim | nindent 4 }}
+  {{- end }}
+  {{- if hasKey $container "readinessProbe" }}
+  readinessProbe:
+    {{- include "instant-chart.probe" (dict
+      "probe" $container.readinessProbe
+      "defaultPort" $defaultPort
+    ) | trim | nindent 4 }}
+  {{- end }}
+  {{- if hasKey $container "startupProbe" }}
+  startupProbe:
+    {{- include "instant-chart.probe" (dict
+      "probe" $container.startupProbe
+      "defaultPort" $defaultPort
+    ) | trim | nindent 4 }}
+  {{- end }}
 {{- end -}}
+{{- end -}}
+
+{{/*
+Generate the probe definition
+Usage:
+*/}}
+{{- define "instant-chart.probe" -}}
+{{- $probe := merge .probe (dict "tcpSocket" (dict "port" .defaultPort)) -}}
+{{- $options := omit .probe "enabled" "httpGet" "exec" "grpc" "tcpSocket" -}}
+{{- $options = merge $options (dict
+  "initialDelaySeconds" 10
+  "periodSeconds" 10
+  "timeoutSeconds" 5
+  "failureThreshold" 5
+  "successThreshold" 1
+) -}}
+{{- if hasKey $probe "httpGet" }}
+{{- $httpGet := merge $probe.httpGet (dict "path" "/" "port" .defaultPort) -}}
+httpGet:
+  {{- omit $httpGet "enabled" | toYaml | nindent 2 }}
+{{- else if hasKey $probe "exec" -}}
+{{- $exec := merge $probe.exec (dict "command" list) -}}
+exec:
+  {{- omit $exec "enabled" | toYaml | nindent 2 }}
+{{- else if hasKey $probe "grpc" -}}
+{{- $grpc := merge $probe.grpc (dict "port" .defaultPort) -}}
+grpc:
+  {{- omit $grpc "enabled" | toYaml | nindent 2 }}
+{{- else if hasKey $probe "tcpSocket" -}}
+{{- $tcpSocket := merge $probe.tcpSocket (dict "port" .defaultPort) -}}
+tcpSocket:
+  {{- omit $tcpSocket "enabled" | toYaml | nindent 2 }}
+{{- end }}
+{{- toYaml $options | nindent 0 }}
 {{- end -}}
