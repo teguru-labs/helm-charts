@@ -88,12 +88,12 @@ Usage:
 */}}
 {{- define "instant-chart.containers" -}}
 {{- range $index, $container := .containers }}
-{{- $defaultPort := 80 }}
-{{- if and $container.ports (gt (len .ports) 0) }}
-  {{- $defaultPort = (index .ports 0).containerPort | default 80 }}
-{{- end }}
+{{- $defaultPort := 80 -}}
+{{- if and $container.ports (gt (len .ports) 0) -}}
+  {{- $defaultPort = (index .ports 0).containerPort | default 80 -}}
+{{- end -}}
 - name: {{ $container.name | default (printf "%s-%d" $.prefix $index) }}
-  {{- omit $container "name" "livenessProbe" "readinessProbe" | toYaml | nindent 2 }}
+  {{- omit $container "name" "livenessProbe" "readinessProbe" "startupProbe" | toYaml | nindent 2 }}
   {{- if hasKey $container "livenessProbe" }}
   livenessProbe:
     {{- include "instant-chart.probe" (dict
