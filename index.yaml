@@ -2,6 +2,19 @@ apiVersion: v1
 entries:
   instant-chart:
   - apiVersion: v2
+    created: "2024-08-03T15:44:52.496530081Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 2.20.5
+    description: A Helm chart enables rapid deployment
+    digest: 3599c276204847225a028b193bb89f90d53f10ac13c80f25770f0987db1d1858
+    name: instant-chart
+    type: application
+    urls:
+    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.2.1/instant-chart-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
     created: "2024-08-03T13:56:34.242288416Z"
     dependencies:
     - name: common
@@ -92,4 +105,4 @@ entries:
     urls:
     - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.1.1/instant-chart-0.1.1.tgz
     version: 0.1.1
-generated: "2024-08-03T13:56:34.242319935Z"
+generated: "2024-08-03T15:44:52.496562642Z"
