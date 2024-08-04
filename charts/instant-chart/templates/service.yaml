@@ -1,4 +1,10 @@
-{{- if and .Values.service.enabled .Values.service.ports }}
+{{- if .Values.service.enabled -}}
+{{- $container := dict -}}
+{{- if .Values.containers -}}
+{{- $container = index .Values.containers 0 -}}
+{{- end -}}
+{{- $defaultPort := (include "instant-chart.firstPort" $container | fromYaml).port -}}
+{{- $ports := .Values.service.ports | default (list (dict "port" $defaultPort)) -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -12,18 +18,16 @@ metadata:
 spec:
   selector:
     {{- include "instant-chart.matchLabels" . | nindent 4 }}
-  {{- with .Values.service }}
   ports:
-  {{- range $index, $port := .ports }}
-  - name: {{ .name | default (printf "port-%d" $index) }}
-    port: {{ $port.port | default 80 }}
-    targetPort: {{ $port.targetPort | default $port.port | default 80 }}
-    {{- $extra := omit .  "name" "port" "targetPort" "protocol" -}}
+  {{- range $index, $port := $ports }}
+  - name: {{ $port.name | default (printf "port-%d" $index) }}
+    port: {{ $port.port | default $defaultPort }}
+    targetPort: {{ $port.targetPort | default $port.port | default $defaultPort }}
+    {{- $extra := omit $port  "name" "port" "targetPort" "protocol" -}}
     {{- if $extra }}
     {{- toYaml $extra | nindent 4 }}
     {{- end }}
     protocol: {{ $port.protocol | default "TCP" }}
   {{- end }}
-  {{- toYaml (omit .  "enabled" "selector" "annotations" "labels" "ports") | nindent 2 }}
-  {{- end }}
-{{- end }}
+  {{- toYaml (omit .Values.service  "enabled" "selector" "annotations" "labels" "ports") | nindent 2 }}
+{{- end -}}

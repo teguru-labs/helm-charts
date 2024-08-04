@@ -81,6 +81,15 @@ Clean volumes by removing .persistentVolumeClaim.requests
 {{- $cleanVolumes | toYaml | nindent 0 | trim -}}
 {{- end -}}
 
+{{- define "instant-chart.firstPort" -}}
+{{- $container := default dict . -}}
+{{- $defaultPort := 80 -}}
+{{- if and $container.ports (gt (len .ports) 0) -}}
+  {{- $defaultPort = (index .ports 0).containerPort | default 80 -}}
+{{- end -}}
+port: {{ $defaultPort }}
+{{- end -}}
+
 {{/*
 Generate the container definitions
 Usage:
@@ -93,10 +102,7 @@ Usage:
 {{- if hasKey $imagePatches $name -}}
 {{- $container = set $container "image" (index $imagePatches $name | default $container.image) -}}
 {{- end -}}
-{{- $defaultPort := 80 -}}
-{{- if and $container.ports (gt (len .ports) 0) -}}
-  {{- $defaultPort = (index .ports 0).containerPort | default 80 -}}
-{{- end -}}
+{{- $defaultPort := (include "instant-chart.firstPort" $container | fromYaml).port -}}
 - name: {{ $name }}
   {{- omit $container "name" "livenessProbe" "readinessProbe" "startupProbe" | toYaml | nindent 2 }}
   {{- if hasKey $container "livenessProbe" }}

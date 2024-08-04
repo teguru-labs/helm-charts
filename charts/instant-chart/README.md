@@ -116,11 +116,12 @@ See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command docu
 | ---------------------- | -------------------------------------------------------------------------- | ----------- |
 | `service.enabled`      | Specifies whether a service should be created.                             | `true`      |
 | `service.type`         | The type of the service (ClusterIP, NodePort, LoadBalancer, ExternalName). | `ClusterIP` |
-| `service.ports`        | The ports that the service should expose.                                  |             |
+| `service.ports`        | The ports that the service should expose.                                  | `[]`        |
 | `service.annotations`  | Annotations to add to the service.                                         | `{}`        |
 | `service.externalName` | Set external name when using ExternalName Service                          | `{}`        |
 
-The Service will use port `80` by default.
+- If `service.ports` is empty or `service.ports.port` is not specified, the first container port of the first container (default `80`) will be used for both Service `port` and `targetPort`.
+- If `service.ports.targetPort` is not specified, `service.ports.port` will be used for `targetPort`.
 
 ### Ingress parameters
 

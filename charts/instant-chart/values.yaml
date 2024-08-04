@@ -156,11 +156,13 @@ service:
   ##
   type: ClusterIP
 
-  ## The ports that the service should expose
-  ##
-  ports:
-    - name: http
-      port: 80
+  ## The ports that the service should expose. If .service.ports is empty,
+  ## the first container port of the first container will be used for both `port` and `targetPort`.
+  ## E.g.
+  ## ports:
+  ##   - name: http
+  ##     port: 80
+  ports: []
 
   ## Annotations to add to the service
   ##
