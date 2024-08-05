@@ -1,0 +1,639 @@
+{
+  "$defs": {
+    "ContainerConfig": {
+      "additionalProperties": true,
+      "description": "ContainerConfig defines the container configuration",
+      "properties": {
+        "args": {
+          "description": "Defines the command arguments",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "command": {
+          "description": "Override the container entrypoint command",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "image": {
+          "description": "Container image",
+          "type": "string"
+        },
+        "livenessProbe": {
+          "$ref": "#/$defs/HealthCheckProbe",
+          "description": "The livenessProbe configuration"
+        },
+        "name": {
+          "description": "Container name",
+          "type": "string"
+        },
+        "ports": {
+          "description": "Container ports",
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "containerPort": {
+                "description": "Port number exposed by the container",
+                "type": "integer"
+              }
+            },
+            "required": ["containerPort"],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "readinessProbe": {
+          "$ref": "#/$defs/HealthCheckProbe",
+          "description": "The readinessProbe configuration"
+        },
+        "startupProbe": {
+          "$ref": "#/$defs/HealthCheckProbe",
+          "description": "The startupProbe configuration"
+        },
+        "volumeMounts": {
+          "description": "Volume mounts for the container",
+          "items": {
+            "$ref": "#/$defs/VolumeMountConfig"
+          },
+          "type": "array"
+        }
+      },
+      "required": ["image"],
+      "type": "object"
+    },
+    "GlobalConfig": {
+      "properties": {
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Add additional annotations",
+          "type": "object"
+        },
+        "appVersion": {
+          "description": "Add `app.kubernetes.io/version` label",
+          "type": "string"
+        },
+        "defaultStorageClass": {
+          "description": "Default storage class",
+          "type": "string"
+        },
+        "labels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Add additional labels",
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "HealthCheckProbe": {
+      "additionalProperties": true,
+      "description": "Health check probe configuration",
+      "properties": {
+        "exec": {
+          "description": "Exec probe configuration",
+          "properties": {
+            "command": {
+              "description": "Command to run inside the container",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "enabled": {
+              "description": "Enable this probe",
+              "type": "boolean"
+            }
+          },
+          "required": ["command"],
+          "type": "object"
+        },
+        "failureThreshold": {
+          "description": "When a probe fails, Kubernetes will try failureThreshold times before giving up",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "grpc": {
+          "description": "gRPC probe configuration",
+          "properties": {
+            "enabled": {
+              "description": "Enable this probe",
+              "type": "boolean"
+            },
+            "port": {
+              "description": "Port number of the gRPC service, defaults to the first container port, otherwise 80",
+              "maximum": 65535,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "service": {
+              "description": " Service is the name of the service to place in the gRPC HealthCheckRequest",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "httpGet": {
+          "additionalProperties": true,
+          "description": "HTTP GET probe configuration",
+          "properties": {
+            "enabled": {
+              "description": "Enable this probe",
+              "type": "boolean"
+            },
+            "host": {
+              "description": "Host name to connect to, defaults to the pod IP",
+              "type": "string"
+            },
+            "path": {
+              "description": "Path to access on the HTTP server, defaults to /",
+              "type": "string"
+            },
+            "port": {
+              "description": "Port to access on the HTTP server, defaults to the first container port, otherwise 80",
+              "maximum": 65535,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "type": "object"
+        },
+        "initialDelaySeconds": {
+          "description": "Number of seconds after the container has started before liveness or readiness probes are initiated",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "periodSeconds": {
+          "description": "How often (in seconds) to perform the probe",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "successThreshold": {
+          "description": "Minimum consecutive successes for the probe to be considered successful after having failed",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "tcpSocket": {
+          "additionalProperties": true,
+          "description": "TCP socket probe configuration",
+          "properties": {
+            "host": {
+              "description": "Host name to connect to, defaults to the pod IP",
+              "type": "string"
+            },
+            "port": {
+              "description": "Port to access on the TCP server, defaults to the first container port, otherwise 80",
+              "maximum": 65535,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "type": "object"
+        },
+        "timeoutSeconds": {
+          "description": "Number of seconds after which the probe times out",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "IngressConfig": {
+      "properties": {
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Annotations to add to the ingress",
+          "type": "object"
+        },
+        "className": {
+          "description": "Ingress class name",
+          "type": "string"
+        },
+        "enabled": {
+          "description": "Enable the ingress",
+          "type": "boolean"
+        },
+        "rules": {
+          "description": "Ingress rules",
+          "items": {
+            "properties": {
+              "host": {
+                "description": "Hostname (public domain)",
+                "type": "string"
+              },
+              "paths": {
+                "description": "Paths under the hostname",
+                "items": {
+                  "properties": {
+                    "path": {
+                      "default": "/",
+                      "description": "URL path",
+                      "type": "string"
+                    },
+                    "pathType": {
+                      "default": "ImplementationSpecific",
+                      "description": "Path type",
+                      "enum": ["ImplementationSpecific", "PathPrefix", "Exac"],
+                      "type": "string"
+                    },
+                    "serviceName": {
+                      "description": "Service name, defaults to the service generated by this chart",
+                      "type": "string"
+                    },
+                    "servicePort": {
+                      "description": "Service port, defaults to the first port of the service generated by this chart, otherwise 80",
+                      "maximum": 65535,
+                      "minimum": 1,
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            },
+            "required": ["host"],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "tls": {
+          "description": "TLS configuration",
+          "items": {
+            "properties": {
+              "hosts": {
+                "description": "Hosts for TLS certificates",
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "secretName": {
+                "description": "Secret name for TLS certificates",
+                "type": "string"
+              }
+            },
+            "required": ["secretName"],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "RegistryConfig": {
+      "description": "RegistryConfig provides the container registry credentials for pulling private images",
+      "properties": {
+        "email": {
+          "description": "Email associated with the registry",
+          "type": "string"
+        },
+        "password": {
+          "description": "Registry password",
+          "type": "string"
+        },
+        "server": {
+          "description": "Registry server URL",
+          "type": "string"
+        },
+        "username": {
+          "description": "Registry username",
+          "type": "string"
+        }
+      },
+      "required": ["server", "username", "password"],
+      "type": "object"
+    },
+    "ServiceAccountConfig": {
+      "description": "ServiceAccountConfig defines the service account configuration",
+      "properties": {
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Annotations for the Service Account",
+          "type": "object"
+        },
+        "automount": {
+          "default": true,
+          "description": "Automount the Service Account",
+          "type": "boolean"
+        },
+        "create": {
+          "default": true,
+          "description": "Create the Service Account",
+          "type": "boolean"
+        },
+        "name": {
+          "description": "Service Account name, defaults to the fullname",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ServiceConfig": {
+      "additionalProperties": true,
+      "properties": {
+        "annotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Annotations to add to the service",
+          "type": "object"
+        },
+        "enabled": {
+          "default": true,
+          "description": "Enable the service",
+          "type": "boolean"
+        },
+        "ports": {
+          "description": "The ports that the service should expose",
+          "items": {
+            "additionalProperties": true,
+            "properties": {
+              "name": {
+                "description": "Port name",
+                "type": "string"
+              },
+              "port": {
+                "description": "Port number",
+                "type": "integer"
+              },
+              "targetPort": {
+                "description": "Target port number",
+                "type": "integer"
+              }
+            },
+            "required": ["port"],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "type": {
+          "default": "ClusterIP",
+          "description": "The type of the service (ClusterIP, NodePort, LoadBalancer, ExternalName)",
+          "enum": ["ClusterIP", "NodePort", "LoadBalancer", "ExternalName"],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "VolumeConfig": {
+      "additionalProperties": true,
+      "description": "VolumeConfig defines volumes for Pods",
+      "properties": {
+        "configMap": {
+          "additionalProperties": true,
+          "description": "ConfigMap configuration",
+          "properties": {
+            "name": {
+              "description": "ConfigMap name",
+              "type": "string"
+            }
+          },
+          "required": ["name"],
+          "type": "object"
+        },
+        "name": {
+          "description": "Volume name",
+          "type": "string"
+        },
+        "persistentVolumeClaim": {
+          "additionalProperties": true,
+          "description": "PersistentVolumeClaim configuration",
+          "properties": {
+            "claimName": {
+              "description": "Claim name",
+              "type": "string"
+            },
+            "requests": {
+              "description": "Create the PersistentVolumeClaim by adding `requests` field",
+              "properties": {
+                "accessModes": {
+                  "description": "Access modes",
+                  "items": {
+                    "default": "ReadWriteOnce",
+                    "enum": [
+                      "ReadWriteOnce",
+                      "ReadOnlyMany",
+                      "ReadWriteMany",
+                      "ReadWriteOncePod"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "size": {
+                  "default": "1Gi",
+                  "description": "Requested storage size",
+                  "type": "string"
+                },
+                "storageClass": {
+                  "description": "Storage class",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "required": ["claimName"],
+          "type": "object"
+        }
+      },
+      "required": ["name"],
+      "type": "object"
+    },
+    "VolumeMountConfig": {
+      "properties": {
+        "mountPath": {
+          "description": "Mount path inside the container",
+          "type": "string"
+        },
+        "name": {
+          "description": "Volume name",
+          "type": "string"
+        },
+        "readOnly": {
+          "description": "Mount as read-only",
+          "type": "boolean"
+        },
+        "subPath": {
+          "description": "Sub-path within the volume",
+          "type": "string"
+        }
+      },
+      "required": ["name", "mountPath"],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/phe-lab/helm-charts/blob/main/charts/instant-chart/values.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Schema for values.yaml file",
+  "properties": {
+    "affinity": {
+      "description": "Assign custom affinity rules to the pod",
+      "type": "object"
+    },
+    "configMaps": {
+      "additionalProperties": {
+        "type": "object"
+      },
+      "description": "Configuration for config maps; each key is the ConfigMap name, and the value will be the ConfigMap data.",
+      "type": "object"
+    },
+    "containers": {
+      "description": "A list of containers belonging to the pod",
+      "items": {
+        "$ref": "#/$defs/ContainerConfig"
+      },
+      "type": "array"
+    },
+    "dnsConfig": {
+      "description": "DNS configuration for the pod",
+      "type": "object"
+    },
+    "fullnameOverride": {
+      "description": "Override the full name of resources",
+      "type": "string"
+    },
+    "global": {
+      "$ref": "#/$defs/GlobalConfig",
+      "description": "Global config will apply to all resources"
+    },
+    "hostAliases": {
+      "description": "Host aliases for the pod",
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "imagePatches": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Patch container images for using FluxCD HelmRelease",
+      "type": "object"
+    },
+    "imagePullSecrets": {
+      "description": "Reference to one or more secrets to be used when pulling images",
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "ingress": {
+      "$ref": "#/$defs/IngressConfig",
+      "description": "Ingress configuration"
+    },
+    "initContainers": {
+      "description": "Additional initialization containers",
+      "items": {
+        "$ref": "#/$defs/ContainerConfig"
+      },
+      "type": "array"
+    },
+    "nameOverride": {
+      "description": "Override the default chart name",
+      "type": "string"
+    },
+    "nodeName": {
+      "description": "Assign Pods to a specific node name",
+      "type": "string"
+    },
+    "nodeSelector": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Define which Nodes the Pods are scheduled on",
+      "type": "object"
+    },
+    "overhead": {
+      "description": "Overhead for the pod",
+      "type": "object"
+    },
+    "readinessGates": {
+      "description": "Readiness gates for the pod",
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "registryLogin": {
+      "description": "Create a Secret to provide registry credentials for pulling private images",
+      "items": {
+        "$ref": "#/$defs/RegistryConfig"
+      },
+      "type": "array"
+    },
+    "replicas": {
+      "default": 1,
+      "description": "Number of pod replicas",
+      "minimum": 1,
+      "type": "integer"
+    },
+    "secrets": {
+      "additionalProperties": {
+        "type": "object"
+      },
+      "description": "Configuration for secrets; each key is the secret name, and the value will be the secret data. These data are automatically encoded in Base64",
+      "type": "object"
+    },
+    "securityContext": {
+      "description": "Define privilege and access control settings for a Pod or Container",
+      "type": "object"
+    },
+    "service": {
+      "$ref": "#/$defs/ServiceConfig",
+      "description": "Service configuration"
+    },
+    "serviceAccount": {
+      "$ref": "#/$defs/ServiceAccountConfig",
+      "description": "Service Account for Pod to use"
+    },
+    "tolerations": {
+      "description": "Tolerations for use with node taints",
+      "items": {
+        "properties": {
+          "effect": {
+            "description": "Taint effect",
+            "type": "string"
+          },
+          "key": {
+            "description": "Taint key",
+            "type": "string"
+          },
+          "operator": {
+            "description": "Taint operator",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "topologySpreadConstraints": {
+      "description": "Enable topology spread constraints to control how Pods are spread across your cluster among failure-domains",
+      "items": {
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "volumes": {
+      "description": "A list of volumes to be added to the pod",
+      "items": {
+        "$ref": "#/$defs/VolumeConfig"
+      },
+      "type": "array"
+    }
+  },
+  "type": "object"
+}
