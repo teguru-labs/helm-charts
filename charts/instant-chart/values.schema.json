@@ -479,27 +479,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "description": "Schema for values.yaml file",
   "properties": {
-    "affinity": {
-      "description": "Assign custom affinity rules to the pod",
-      "type": "object"
-    },
-    "configMaps": {
-      "additionalProperties": {
-        "type": "object"
-      },
-      "description": "Configuration for config maps; each key is the ConfigMap name, and the value will be the ConfigMap data.",
-      "type": "object"
-    },
-    "containers": {
-      "description": "A list of containers belonging to the pod",
-      "items": {
-        "$ref": "#/$defs/ContainerConfig"
-      },
-      "type": "array"
-    },
-    "dnsConfig": {
-      "description": "DNS configuration for the pod",
-      "type": "object"
+    "nameOverride": {
+      "description": "Override the default chart name",
+      "type": "string"
     },
     "fullnameOverride": {
       "description": "Override the full name of resources",
@@ -509,10 +491,23 @@
       "$ref": "#/$defs/GlobalConfig",
       "description": "Global config will apply to all resources"
     },
-    "hostAliases": {
-      "description": "Host aliases for the pod",
+    "replicas": {
+      "default": 1,
+      "description": "Number of pod replicas",
+      "minimum": 0,
+      "type": "integer"
+    },
+    "containers": {
+      "description": "A list of containers belonging to the pod",
       "items": {
-        "type": "object"
+        "$ref": "#/$defs/ContainerConfig"
+      },
+      "type": "array"
+    },
+    "initContainers": {
+      "description": "Additional initialization containers",
+      "items": {
+        "$ref": "#/$defs/ContainerConfig"
       },
       "type": "array"
     },
@@ -523,47 +518,21 @@
       "description": "Patch container images for using FluxCD HelmRelease",
       "type": "object"
     },
+    "volumes": {
+      "description": "A list of volumes to be added to the pod",
+      "items": {
+        "$ref": "#/$defs/VolumeConfig"
+      },
+      "type": "array"
+    },
+    "serviceAccount": {
+      "$ref": "#/$defs/ServiceAccountConfig",
+      "description": "Service Account for Pod to use"
+    },
     "imagePullSecrets": {
       "description": "Reference to one or more secrets to be used when pulling images",
       "items": {
         "type": "string"
-      },
-      "type": "array"
-    },
-    "ingress": {
-      "$ref": "#/$defs/IngressConfig",
-      "description": "Ingress configuration"
-    },
-    "initContainers": {
-      "description": "Additional initialization containers",
-      "items": {
-        "$ref": "#/$defs/ContainerConfig"
-      },
-      "type": "array"
-    },
-    "nameOverride": {
-      "description": "Override the default chart name",
-      "type": "string"
-    },
-    "nodeName": {
-      "description": "Assign Pods to a specific node name",
-      "type": "string"
-    },
-    "nodeSelector": {
-      "additionalProperties": {
-        "type": "string"
-      },
-      "description": "Define which Nodes the Pods are scheduled on",
-      "type": "object"
-    },
-    "overhead": {
-      "description": "Overhead for the pod",
-      "type": "object"
-    },
-    "readinessGates": {
-      "description": "Readiness gates for the pod",
-      "items": {
-        "type": "object"
       },
       "type": "array"
     },
@@ -574,11 +543,20 @@
       },
       "type": "array"
     },
-    "replicas": {
-      "default": 1,
-      "description": "Number of pod replicas",
-      "minimum": 1,
-      "type": "integer"
+    "service": {
+      "$ref": "#/$defs/ServiceConfig",
+      "description": "Service configuration"
+    },
+    "ingress": {
+      "$ref": "#/$defs/IngressConfig",
+      "description": "Ingress configuration"
+    },
+    "configMaps": {
+      "additionalProperties": {
+        "type": "object"
+      },
+      "description": "Configuration for config maps; each key is the ConfigMap name, and the value will be the ConfigMap data.",
+      "type": "object"
     },
     "secrets": {
       "additionalProperties": {
@@ -587,17 +565,20 @@
       "description": "Configuration for secrets; each key is the secret name, and the value will be the secret data. These data are automatically encoded in Base64",
       "type": "object"
     },
-    "securityContext": {
-      "description": "Define privilege and access control settings for a Pod or Container",
+    "affinity": {
+      "description": "Assign custom affinity rules to the pod",
       "type": "object"
     },
-    "service": {
-      "$ref": "#/$defs/ServiceConfig",
-      "description": "Service configuration"
+    "nodeSelector": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Define which Nodes the Pods are scheduled on",
+      "type": "object"
     },
-    "serviceAccount": {
-      "$ref": "#/$defs/ServiceAccountConfig",
-      "description": "Service Account for Pod to use"
+    "nodeName": {
+      "description": "Assign Pods to a specific node name",
+      "type": "string"
     },
     "tolerations": {
       "description": "Tolerations for use with node taints",
@@ -627,10 +608,29 @@
       },
       "type": "array"
     },
-    "volumes": {
-      "description": "A list of volumes to be added to the pod",
+    "securityContext": {
+      "description": "Define privilege and access control settings for a Pod or Container",
+      "type": "object"
+    },
+    "dnsConfig": {
+      "description": "DNS configuration for the pod",
+      "type": "object"
+    },
+    "hostAliases": {
+      "description": "Host aliases for the pod",
       "items": {
-        "$ref": "#/$defs/VolumeConfig"
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "overhead": {
+      "description": "Overhead for the pod",
+      "type": "object"
+    },
+    "readinessGates": {
+      "description": "Readiness gates for the pod",
+      "items": {
+        "type": "object"
       },
       "type": "array"
     }
