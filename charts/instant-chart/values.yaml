@@ -9,13 +9,15 @@ fullnameOverride: ""
 ## Global config will apply to all resources
 ##
 global:
+  ## Add `app.kubernetes.io/version` label
+  ##
   appVersion: ""
 
   ## Add additional labels
   ##
   labels: {}
 
-  ## Add additional labels
+  ## Add additional annotations
   ##
   annotations: {}
 

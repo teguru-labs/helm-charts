@@ -1,6 +1,13 @@
 apiVersion: v2
 name: instant-chart
 description: A Helm chart enables rapid deployment
+icon: https://charts.phelab.com/assets/icons/instant-chart.png
+keywords:
+  - common-app
+  - component
+  - instance
+  - general
+  - phelab
 type: application
 version: 0.4.0
 dependencies:
