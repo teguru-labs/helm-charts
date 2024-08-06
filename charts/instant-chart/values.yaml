@@ -210,7 +210,7 @@ ingress:
   ##   - secretName: chart-example-tls
   ##     hosts:
   ##       - chart-example.local
-  tls: {}
+  tls: []
 
 ## List of ConfigMaps to create, for storing non-sensitive data
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/

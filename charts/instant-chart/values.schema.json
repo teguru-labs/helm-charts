@@ -480,11 +480,11 @@
   "description": "Schema for values.yaml file",
   "properties": {
     "nameOverride": {
-      "description": "Override the default chart name",
+      "title": "Override the default chart name",
       "type": "string"
     },
     "fullnameOverride": {
-      "description": "Override the full name of resources",
+      "title": "Override the full name of resources",
       "type": "string"
     },
     "global": {
