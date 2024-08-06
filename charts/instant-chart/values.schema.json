@@ -481,31 +481,36 @@
   "properties": {
     "nameOverride": {
       "title": "Override the default chart name",
+      "description": "This value is used to override the default chart name used when creating resources. If you only want to change the short name of the chart without affecting the full name, you can use nameOverride.",
       "type": "string"
     },
     "fullnameOverride": {
-      "title": "Override the full name of resources",
+      "title": "Override the fullname of the resources",
+      "description": "This value allows you to set the fullname for the resources generated, regardless of Helm's default naming convention. This is useful when you want to ensure that the names of the resources are entirely to your liking without relying on Helm's default naming logic.",
       "type": "string"
     },
     "global": {
       "$ref": "#/$defs/GlobalConfig",
-      "description": "Global config will apply to all resources"
+      "description": "Global config will apply for all resources generated",
+      "title": "Global config"
     },
     "replicas": {
       "default": 1,
-      "description": "Number of pod replicas",
+      "title": "Number of Pod replicas",
       "minimum": 0,
       "type": "integer"
     },
     "containers": {
-      "description": "A list of containers belonging to the pod",
+      "title": "A list of containers belonging to the pod",
+      "description": "Similars to pod.spec.containers configuration",
       "items": {
         "$ref": "#/$defs/ContainerConfig"
       },
       "type": "array"
     },
     "initContainers": {
-      "description": "Additional initialization containers",
+      "title": "Additional initialization containers",
+      "description": "Similars to pod.spec.initContainers configuration",
       "items": {
         "$ref": "#/$defs/ContainerConfig"
       },
@@ -515,11 +520,13 @@
       "additionalProperties": {
         "type": "string"
       },
-      "description": "Patch container images for using FluxCD HelmRelease",
+      "title": "Override the container images",
+      "description": "Patch container images for using FluxCD Image Update Automation",
       "type": "object"
     },
     "volumes": {
-      "description": "A list of volumes to be added to the pod",
+      "title": "A list of volumes to be added to the pod",
+      "description": "Similars to pod.spec.volumes configuration",
       "items": {
         "$ref": "#/$defs/VolumeConfig"
       },
@@ -527,17 +534,20 @@
     },
     "serviceAccount": {
       "$ref": "#/$defs/ServiceAccountConfig",
-      "description": "Service Account for Pod to use"
+      "title": "Service Account for Pod to use",
+      "description": "Defaults to 'default' ServiceAccount"
     },
     "imagePullSecrets": {
-      "description": "Reference to one or more secrets to be used when pulling images",
+      "title": "Add external pull secrets",
+      "description": "Reference to one or more secrets to be used when pulling images. The pull secret generated is added to the Pod by default.",
       "items": {
         "type": "string"
       },
       "type": "array"
     },
     "registryLogin": {
-      "description": "Create a Secret to provide registry credentials for pulling private images",
+      "title": "Provides credentials for registry login",
+      "description": "Creates a Secret to provide registry credentials for pulling private images",
       "items": {
         "$ref": "#/$defs/RegistryConfig"
       },
@@ -545,16 +555,18 @@
     },
     "service": {
       "$ref": "#/$defs/ServiceConfig",
-      "description": "Service configuration"
+      "title": "Service configuration",
+      "description": "Similars to service.spec configuration"
     },
     "ingress": {
       "$ref": "#/$defs/IngressConfig",
-      "description": "Ingress configuration"
+      "title": "Ingress configuration"
     },
     "configMaps": {
       "additionalProperties": {
         "type": "object"
       },
+      "title": "Create ConfigMaps",
       "description": "Configuration for config maps; each key is the ConfigMap name, and the value will be the ConfigMap data.",
       "type": "object"
     },
@@ -562,38 +574,41 @@
       "additionalProperties": {
         "type": "object"
       },
-      "description": "Configuration for secrets; each key is the secret name, and the value will be the secret data. These data are automatically encoded in Base64",
+      "title": "Create Secrets",
+      "description": "Configuration for secrets; each key is the Secret name, and the value will be the Secret data. These data are automatically encoded in base64.",
       "type": "object"
     },
     "affinity": {
-      "description": "Assign custom affinity rules to the pod",
+      "title": "Assign custom affinity rules to the pod",
+      "description": "Similars to pod.spec.affinity configuration. You can define node affinity, pod affinity and anti-affinity here.",
       "type": "object"
     },
     "nodeSelector": {
       "additionalProperties": {
         "type": "string"
       },
+      "title": "Select nodes by labels",
       "description": "Define which Nodes the Pods are scheduled on",
       "type": "object"
     },
     "nodeName": {
-      "description": "Assign Pods to a specific node name",
+      "title": "Assign Pods to a specific node name",
       "type": "string"
     },
     "tolerations": {
-      "description": "Tolerations for use with node taints",
+      "title": "Tolerations for use with node taints",
       "items": {
         "properties": {
           "effect": {
-            "description": "Taint effect",
+            "title": "Taint effect",
             "type": "string"
           },
           "key": {
-            "description": "Taint key",
+            "title": "Taint key",
             "type": "string"
           },
           "operator": {
-            "description": "Taint operator",
+            "title": "Taint operator",
             "type": "string"
           }
         },
@@ -602,33 +617,39 @@
       "type": "array"
     },
     "topologySpreadConstraints": {
-      "description": "Enable topology spread constraints to control how Pods are spread across your cluster among failure-domains",
+      "title": "Topolofy spread constraints",
+      "description": "Enable topology spread constraints to control how Pods are spread across your cluster among failure-domains. It similars to pod.spec.topologySpreadConstraints configuration.",
       "items": {
         "type": "object"
       },
       "type": "array"
     },
     "securityContext": {
+      "title": "Pod security context",
       "description": "Define privilege and access control settings for a Pod or Container",
       "type": "object"
     },
     "dnsConfig": {
-      "description": "DNS configuration for the pod",
+      "title": "DNS configuration for the pod",
+      "description": "Similars to pod.spec.dnsConfig configuration",
       "type": "object"
     },
     "hostAliases": {
-      "description": "Host aliases for the pod",
+      "title": "Host aliases for the pod",
+      "description": "Similars to pod.spec.hostAliases configuration",
       "items": {
         "type": "object"
       },
       "type": "array"
     },
     "overhead": {
-      "description": "Overhead for the pod",
+      "title": "Overhead for the pod",
+      "description": "Similars to pod.spec.overhead configuration",
       "type": "object"
     },
     "readinessGates": {
-      "description": "Readiness gates for the pod",
+      "title": "Readiness gates for the pod",
+      "description": "Similars to pod.spec.readinessGates configuration",
       "items": {
         "type": "object"
       },
