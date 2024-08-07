@@ -70,6 +70,8 @@
       "type": "object"
     },
     "GlobalConfig": {
+      "title": "Global configuration",
+      "description": "This configuration will apply for all resources generated",
       "properties": {
         "annotations": {
           "additionalProperties": {
@@ -130,7 +132,7 @@
           "type": "integer"
         },
         "grpc": {
-          "description": "The gRPC configuration",
+          "title": "The gRPC configuration",
           "properties": {
             "enabled": {
               "title": "Enable gRPC health checking",
@@ -227,6 +229,7 @@
       "type": "object"
     },
     "IngressConfig": {
+      "title": "Ingress configuration",
       "properties": {
         "annotations": {
           "additionalProperties": {
@@ -386,6 +389,8 @@
       "type": "object"
     },
     "ServiceConfig": {
+      "title": "Service configuration",
+      "description": "Similars to service.spec configuration",
       "additionalProperties": true,
       "properties": {
         "annotations": {
@@ -567,9 +572,7 @@
       "type": "string"
     },
     "global": {
-      "$ref": "#/$defs/GlobalConfig",
-      "description": "Global config will apply for all resources generated",
-      "title": "Global config"
+      "$ref": "#/$defs/GlobalConfig"
     },
     "replicas": {
       "default": 1,
@@ -631,13 +634,10 @@
       "type": "array"
     },
     "service": {
-      "$ref": "#/$defs/ServiceConfig",
-      "title": "Service configuration",
-      "description": "Similars to service.spec configuration"
+      "$ref": "#/$defs/ServiceConfig"
     },
     "ingress": {
-      "$ref": "#/$defs/IngressConfig",
-      "title": "Ingress configuration"
+      "$ref": "#/$defs/IngressConfig"
     },
     "configMaps": {
       "additionalProperties": {
