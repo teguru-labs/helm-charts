@@ -179,12 +179,12 @@ service:
 ## ref https://kubernetes.io/docs/concepts/services-networking/ingress
 ##
 ingress:
-  enabled: true
+  enabled: false
 
   ## Ingress class name
   ## https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class.
   ##
-  className: ""
+  className: "nginx"
 
   ## Optionally specify additional annotations to the ingress.
   ## E.g.
