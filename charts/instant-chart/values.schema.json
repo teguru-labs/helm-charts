@@ -2,42 +2,46 @@
   "$defs": {
     "ContainerConfig": {
       "additionalProperties": true,
-      "description": "ContainerConfig defines the container configuration",
+      "title": "The containers should run in Pod",
+      "description": "ContainerConfig defines container configuration. It similars to pod.spec.containers.",
       "properties": {
         "args": {
-          "description": "Defines the command arguments",
+          "title": "The command arguments",
+          "description": "Pass arguments to the container entrypoint command",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "command": {
+          "title": "The container entrypoint command",
+          "description": "Override the container entrypoint command that should start the application",
           "items": {
             "type": "string"
           },
           "minItems": 1,
           "type": "array"
         },
-        "command": {
-          "description": "Override the container entrypoint command",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
         "image": {
-          "description": "Container image",
+          "title": "Container image",
           "type": "string"
         },
         "livenessProbe": {
           "$ref": "#/$defs/HealthCheckProbe",
-          "description": "The livenessProbe configuration"
+          "title": "The livenessProbe configuration"
         },
         "name": {
-          "description": "Container name",
+          "title": "Container name",
+          "description": "Defaults to `container-$index` for containers and `init-$index` for `initContainers`. Example: container-0, init-0.",
           "type": "string"
         },
         "ports": {
-          "description": "Container ports",
+          "title": "Container ports",
           "items": {
             "additionalProperties": true,
             "properties": {
               "containerPort": {
-                "description": "Port number exposed by the container",
+                "title": "Port number exposed by the container",
                 "type": "integer"
               }
             },
@@ -48,14 +52,14 @@
         },
         "readinessProbe": {
           "$ref": "#/$defs/HealthCheckProbe",
-          "description": "The readinessProbe configuration"
+          "title": "The readinessProbe configuration"
         },
         "startupProbe": {
           "$ref": "#/$defs/HealthCheckProbe",
-          "description": "The startupProbe configuration"
+          "title": "The startupProbe configuration"
         },
         "volumeMounts": {
-          "description": "Volume mounts for the container",
+          "title": "Mounts volume into the container",
           "items": {
             "$ref": "#/$defs/VolumeMountConfig"
           },
@@ -71,22 +75,25 @@
           "additionalProperties": {
             "type": "string"
           },
-          "description": "Add additional annotations",
+          "title": "Add additional annotations",
           "type": "object"
         },
         "appVersion": {
-          "description": "Add `app.kubernetes.io/version` label",
+          "title": "Add application version label",
+          "description": "It will add the `app.kubernetes.io/version` label for all resources",
           "type": "string"
         },
         "defaultStorageClass": {
-          "description": "Default storage class",
+          "title": "Default storage class",
+          "description": "The default storage class will be used if storageClass didn't provide",
           "type": "string"
         },
         "labels": {
           "additionalProperties": {
             "type": "string"
           },
-          "description": "Add additional labels",
+          "title": "Add additional labels",
+          "description": "It will add these labels for all resources",
           "type": "object"
         }
       },
@@ -94,13 +101,14 @@
     },
     "HealthCheckProbe": {
       "additionalProperties": true,
-      "description": "Health check probe configuration",
+      "title": "Health check probe configuration",
+      "description": "HealthCheckProbe is used for livenessProbe, readinessProbe and startupProbe.",
       "properties": {
         "exec": {
-          "description": "Exec probe configuration",
+          "title": "The command configuration",
           "properties": {
             "command": {
-              "description": "Command to run inside the container",
+              "title": "The command will be executed",
               "items": {
                 "type": "string"
               },
@@ -108,7 +116,7 @@
               "type": "array"
             },
             "enabled": {
-              "description": "Enable this probe",
+              "title": "Enable this probe",
               "type": "boolean"
             }
           },
@@ -116,25 +124,28 @@
           "type": "object"
         },
         "failureThreshold": {
+          "title": "Failure threshold",
           "description": "When a probe fails, Kubernetes will try failureThreshold times before giving up",
           "minimum": 1,
           "type": "integer"
         },
         "grpc": {
-          "description": "gRPC probe configuration",
+          "description": "The gRPC configuration",
           "properties": {
             "enabled": {
-              "description": "Enable this probe",
+              "title": "Enable gRPC health checking",
               "type": "boolean"
             },
             "port": {
-              "description": "Port number of the gRPC service, defaults to the first container port, otherwise 80",
+              "title": "Port number of the gRPC service",
+              "description": "Defaults to the first container port, otherwise 80",
               "maximum": 65535,
               "minimum": 1,
               "type": "integer"
             },
             "service": {
-              "description": " Service is the name of the service to place in the gRPC HealthCheckRequest",
+              "title": "gRPC service name",
+              "description": "Service is the name of the service to place in the gRPC HealthCheckRequest",
               "type": "string"
             }
           },
@@ -142,22 +153,25 @@
         },
         "httpGet": {
           "additionalProperties": true,
-          "description": "HTTP GET probe configuration",
+          "title": "HTTP GET configuration",
           "properties": {
             "enabled": {
-              "description": "Enable this probe",
+              "title": "Enable this probe",
               "type": "boolean"
             },
             "host": {
-              "description": "Host name to connect to, defaults to the pod IP",
+              "title": "Host name to connect to",
+              "description": "Defaults to the pod IP",
               "type": "string"
             },
             "path": {
-              "description": "Path to access on the HTTP server, defaults to /",
+              "title": "Path to access on the HTTP server",
+              "description": "Defaults to '/'",
               "type": "string"
             },
             "port": {
-              "description": "Port to access on the HTTP server, defaults to the first container port, otherwise 80",
+              "title": "Port number to access on the HTTP server",
+              "description": "Defaults to the first container port, otherwise 80",
               "maximum": 65535,
               "minimum": 1,
               "type": "integer"
@@ -166,30 +180,36 @@
           "type": "object"
         },
         "initialDelaySeconds": {
+          "title": "Number of delay in seconds",
           "description": "Number of seconds after the container has started before liveness or readiness probes are initiated",
           "minimum": 0,
           "type": "integer"
         },
         "periodSeconds": {
+          "title": "Period in seconds",
           "description": "How often (in seconds) to perform the probe",
           "minimum": 1,
           "type": "integer"
         },
         "successThreshold": {
+          "title": "Success threshold",
           "description": "Minimum consecutive successes for the probe to be considered successful after having failed",
           "minimum": 1,
           "type": "integer"
         },
         "tcpSocket": {
           "additionalProperties": true,
-          "description": "TCP socket probe configuration",
+          "title": "TCP socket probe configuration",
+          "description": "This is the default method will be used for health checking",
           "properties": {
             "host": {
-              "description": "Host name to connect to, defaults to the pod IP",
+              "title": "Host name to connect to",
+              "description": "Defaults to the pod IP",
               "type": "string"
             },
             "port": {
-              "description": "Port to access on the TCP server, defaults to the first container port, otherwise 80",
+              "title": "Port number to access on the TCP server",
+              "description": "Defaults to the first container port, otherwise 80",
               "maximum": 65535,
               "minimum": 1,
               "type": "integer"
@@ -198,6 +218,7 @@
           "type": "object"
         },
         "timeoutSeconds": {
+          "title": "Timeout in seconds",
           "description": "Number of seconds after which the probe times out",
           "minimum": 1,
           "type": "integer"
