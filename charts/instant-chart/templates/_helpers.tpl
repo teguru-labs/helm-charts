@@ -81,13 +81,49 @@ Clean volumes by removing .persistentVolumeClaim.requests
 {{- $cleanVolumes | toYaml | nindent 0 | trim -}}
 {{- end -}}
 
-{{- define "instant-chart.firstPort" -}}
-{{- $container := default dict . -}}
-{{- $defaultPort := 80 -}}
-{{- if and $container.ports (gt (len .ports) 0) -}}
-  {{- $defaultPort = (index .ports 0).containerPort | default 80 -}}
+{{/*
+Get the first container.
+Usage:
+  {{- $container := (include "instant-chart.firstContainer" . | fromYaml).container -}}
+*/}}
+{{- define "instant-chart.firstContainer" -}}
+{{- $container := dict -}}
+{{- if gt (len .Values.containers) 0 -}}
+  {{- $container = index .Values.containers 0 -}}
 {{- end -}}
-port: {{ $defaultPort }}
+container: {{ toYaml $container | nindent 2 }}
+{{- end -}}
+
+{{/*
+Get the first container port of the given container or default port.
+Usage:
+  {{- $port := (include "instant-chart.firstContainerPort" $container | fromYaml).port -}}
+*/}}
+{{- define "instant-chart.firstContainerPort" -}}
+{{- $container := default dict . -}}
+{{- $containerPort := 80 -}}
+{{- if and $container.ports (gt (len .ports) 0) -}}
+  {{- $containerPort = (index .ports 0).containerPort | default 80 -}}
+{{- end -}}
+port: {{ $containerPort }}
+{{- end -}}
+
+{{/*
+Get the first service port or default port.
+Usage:
+  {{- $port := (include "instant-chart.firstServicePort" . | fromYaml).port -}}
+*/}}
+{{- define "instant-chart.firstServicePort" -}}
+{{- $servicePort := 80 -}}
+{{- with .Values.service -}}
+  {{- if gt (len .ports) 0 -}}
+    {{- $servicePort = (index .ports 0).port | default 80 -}}
+  {{- else -}}
+    {{- $container := (include "instant-chart.firstContainer" $ | fromYaml).container -}}
+    {{- $servicePort = (include "instant-chart.firstContainerPort" $container | fromYaml).port -}}
+  {{- end -}}
+{{- end -}}
+port: {{ $servicePort }}
 {{- end -}}
 
 {{/*
@@ -102,7 +138,7 @@ Usage:
 {{- if hasKey $imagePatches $name -}}
 {{- $container = set $container "image" (index $imagePatches $name | default $container.image) -}}
 {{- end -}}
-{{- $defaultPort := (include "instant-chart.firstPort" $container | fromYaml).port -}}
+{{- $defaultPort := (include "instant-chart.firstContainerPort" $container | fromYaml).port -}}
 - name: {{ $name }}
   {{- omit $container "name" "livenessProbe" "readinessProbe" "startupProbe" | toYaml | nindent 2 }}
   {{- if hasKey $container "livenessProbe" }}

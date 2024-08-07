@@ -1,9 +1,6 @@
 {{- if .Values.service.enabled -}}
-{{- $container := dict -}}
-{{- if .Values.containers -}}
-{{- $container = index .Values.containers 0 -}}
-{{- end -}}
-{{- $defaultPort := (include "instant-chart.firstPort" $container | fromYaml).port -}}
+{{- $container := (include "instant-chart.firstContainer" . | fromYaml).container -}}
+{{- $defaultPort := (include "instant-chart.firstContainerPort" $container | fromYaml).port -}}
 {{- $ports := .Values.service.ports | default (list (dict "port" $defaultPort)) -}}
 apiVersion: v1
 kind: Service

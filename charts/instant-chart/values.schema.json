@@ -264,6 +264,7 @@
             "required": ["host"],
             "type": "object"
           },
+          "minItems": 1,
           "type": "array"
         },
         "tls": {
@@ -288,6 +289,7 @@
           "type": "array"
         }
       },
+      "required": ["rules"],
       "type": "object"
     },
     "RegistryConfig": {

@@ -1,6 +1,7 @@
 {{- if .Values.ingress.enabled -}}
+{{- $defaultPort := (include "instant-chart.firstServicePort" . | fromYaml).port -}}
 {{- $fullname := include "common.names.fullname" . -}}
-{{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+{{- if eq (include "common.ingress.supportsIngressClassname" .) "false" }}
   {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
   {{- end }}
@@ -32,7 +33,7 @@ spec:
   rules:
   {{- range .Values.ingress.rules }}
   {{- if not .paths }}
-  {{- $_ := set . "paths" (list (dict "path" "/" "pathType" "ImplementationSpecific" "servicePort" 80)) -}}
+  {{- $_ := set . "paths" (list (dict "path" "/" "pathType" "ImplementationSpecific" "servicePort" $defaultPort)) -}}
   {{- end }}
   - host: {{ .host | quote }}
     http:
@@ -45,7 +46,7 @@ spec:
         backend:
           {{- include "common.ingress.backend" (dict
             "serviceName" (default $fullname .serviceName)
-            "servicePort" (default 80 .servicePort)
+            "servicePort" (default $defaultPort .servicePort)
             "context" $
           ) | nindent 10 }}
       {{- end }}
