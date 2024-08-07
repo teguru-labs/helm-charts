@@ -27,8 +27,7 @@
           "type": "string"
         },
         "livenessProbe": {
-          "$ref": "#/$defs/HealthCheckProbe",
-          "title": "The livenessProbe configuration"
+          "$ref": "#/$defs/HealthCheckProbe"
         },
         "name": {
           "title": "Container name",
@@ -51,12 +50,10 @@
           "type": "array"
         },
         "readinessProbe": {
-          "$ref": "#/$defs/HealthCheckProbe",
-          "title": "The readinessProbe configuration"
+          "$ref": "#/$defs/HealthCheckProbe"
         },
         "startupProbe": {
-          "$ref": "#/$defs/HealthCheckProbe",
-          "title": "The startupProbe configuration"
+          "$ref": "#/$defs/HealthCheckProbe"
         },
         "volumeMounts": {
           "title": "Mounts volume into the container",
@@ -129,6 +126,7 @@
           "title": "Failure threshold",
           "description": "When a probe fails, Kubernetes will try failureThreshold times before giving up",
           "minimum": 1,
+          "default": 5,
           "type": "integer"
         },
         "grpc": {
@@ -185,18 +183,21 @@
           "title": "Number of delay in seconds",
           "description": "Number of seconds after the container has started before liveness or readiness probes are initiated",
           "minimum": 0,
+          "default": 10,
           "type": "integer"
         },
         "periodSeconds": {
           "title": "Period in seconds",
           "description": "How often (in seconds) to perform the probe",
           "minimum": 1,
+          "default": 10,
           "type": "integer"
         },
         "successThreshold": {
           "title": "Success threshold",
           "description": "Minimum consecutive successes for the probe to be considered successful after having failed",
           "minimum": 1,
+          "default": 1,
           "type": "integer"
         },
         "tcpSocket": {
@@ -223,6 +224,7 @@
           "title": "Timeout in seconds",
           "description": "Number of seconds after which the probe times out",
           "minimum": 1,
+          "default": 5,
           "type": "integer"
         }
       },
