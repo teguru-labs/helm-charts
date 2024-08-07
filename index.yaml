@@ -2,6 +2,26 @@ apiVersion: v1
 entries:
   instant-chart:
   - apiVersion: v2
+    created: "2024-08-07T06:54:32.727408525Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 2.20.5
+    description: A Helm chart enables rapid deployment
+    digest: 3b4bd453c0783e43d3b1267f98faf8492402d4b95b68f30d36970c84316d0e36
+    icon: https://charts.phelab.com/assets/icons/instant-chart.png
+    keywords:
+    - common-app
+    - component
+    - instance
+    - general
+    - phelab
+    name: instant-chart
+    type: application
+    urls:
+    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.4.4/instant-chart-0.4.4.tgz
+    version: 0.4.4
+  - apiVersion: v2
     created: "2024-08-07T06:40:36.347413808Z"
     dependencies:
     - name: common
@@ -191,4 +211,4 @@ entries:
     urls:
     - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.1.1/instant-chart-0.1.1.tgz
     version: 0.1.1
-generated: "2024-08-07T06:40:36.347549822Z"
+generated: "2024-08-07T06:54:32.727519913Z"
