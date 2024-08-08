@@ -9,7 +9,7 @@ keywords:
   - general
   - phelab
 type: application
-version: 0.4.5
+version: 0.4.6
 dependencies:
   - name: common
     version: 2.20.5
