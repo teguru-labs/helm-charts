@@ -11,7 +11,7 @@ jobs:
   build:
     permissions:
       contents: write # to push README.md file to gh-pages branch
-    runs-on: phelab-asia
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - run: |
