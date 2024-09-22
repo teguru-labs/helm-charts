@@ -16,6 +16,7 @@ Once Helm is set up properly, add the repo as follows:
 
 ```bash
 helm repo add phelab https://charts.phelab.com
+helm repo update
 ```
 
 You can then run `helm search repo instant-chart` to see the charts.
