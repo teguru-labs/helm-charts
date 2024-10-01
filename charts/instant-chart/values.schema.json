@@ -87,6 +87,14 @@
           "description": "The default storage class will be used if storageClass didn't provide",
           "type": "string"
         },
+        "imagePullSecrets": {
+          "title": "Add image pull secrets",
+          "description": "Reference to one or more secrets to be used when pulling images. These pull secretes will be applied for all pods.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
         "labels": {
           "additionalProperties": {
             "type": "string"

@@ -25,6 +25,10 @@ global:
   ##
   defaultStorageClass: ""
 
+  ## Global image pull secrets
+  ##
+  imagePullSecrets: []
+
 ## Number of pod replicas
 ##
 replicas: 1

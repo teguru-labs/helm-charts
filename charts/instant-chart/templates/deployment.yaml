@@ -32,10 +32,13 @@ spec:
       {{- include "instant-chart.volumes" . | nindent 6 -}}
       {{- end }}
       serviceAccountName: {{ include "instant-chart.serviceAccountName" . }}
-      {{- if or .Values.registryLogin .Values.imagePullSecrets }}
+      {{- if or .Values.registryLogin .Values.imagePullSecrets .Values.global.imagePullSecrets }}
       imagePullSecrets:
       {{- if .Values.registryLogin }}
       - name: {{ include "instant-chart.pullSecretName" . }}
+      {{- end }}
+      {{- range .Values.global.imagePullSecrets }}
+      - name: {{ . }}
       {{- end }}
       {{- range .Values.imagePullSecrets }}
       - name: {{ . }}
