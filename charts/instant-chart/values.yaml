@@ -59,6 +59,10 @@ containers: []
 ##
 initContainers: []
 
+## Pod restart policy
+##
+restartPolicy: ""
+
 ## A list of volumes to be added to the pod
 ## E.g.
 ## volumes:
