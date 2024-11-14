@@ -29,6 +29,10 @@ global:
   ##
   imagePullSecrets: []
 
+## Kind of resource
+##
+kind: Deployment
+
 ## Number of pod replicas
 ##
 replicas: 1

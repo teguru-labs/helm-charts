@@ -1,6 +1,6 @@
 {{- $kind := include "instant-chart.resource.kind" . -}}
 
-{{- if eq $kind "Deployment" -}}
+{{- if eq $kind "DaemonSet" -}}
 {{- if .Values.containers }}
 apiVersion: {{ template "common.capabilities.deployment.apiVersion" . }}
 kind: {{ $kind }}
