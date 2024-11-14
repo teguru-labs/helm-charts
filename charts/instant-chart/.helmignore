@@ -24,3 +24,4 @@
 .editorconfig
 # Packaged files
 instant-chart-*.tgz
+examples/
