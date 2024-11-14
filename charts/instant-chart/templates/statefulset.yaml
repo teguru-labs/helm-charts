@@ -1,6 +1,6 @@
 {{- $kind := include "instant-chart.resource.kind" . -}}
 
-{{- if eq $kind "DaemonSet" -}}
+{{- if eq $kind "StatefulSet" -}}
 {{- if .Values.containers }}
 apiVersion: {{ template "common.capabilities.deployment.apiVersion" . }}
 kind: {{ $kind }}
@@ -15,6 +15,19 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
+  {{- with .Values.statefulSet.ordinals }}
+  ordinals:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.statefulSet.persistentVolumeClaimRetentionPolicy }}
+  persistentVolumeClaimRetentionPolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .Values.statefulSet.podManagementPolicy }}
+  podManagementPolicy: {{ .Values.statefulSet.podManagementPolicy }}
+  {{- end }}
+  replicas: {{ .Values.replicas }}
+  serviceName: {{ .Values.statefulSet.serviceName | default "" }}
   selector:
     matchLabels:
       {{- include "instant-chart.matchLabels" . | nindent 6 }}
@@ -22,5 +35,9 @@ spec:
     {{- include "instant-chart.podTemplate" . | nindent 4 }}
   updateStrategy:
     {{- include "instant-chart.resource.updateStrategy" . | nindent 4 }}
+  {{- with .Values.statefulSet.volumeClaimTemplates }}
+  volumeClaimTemplates:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}
 {{- end -}}

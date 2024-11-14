@@ -65,7 +65,7 @@ initContainers: []
 
 ## Pod restart policy
 ##
-restartPolicy: ""
+restartPolicy: OnFailure
 
 ## A list of volumes to be added to the pod
 ## E.g.
@@ -244,3 +244,57 @@ configMaps: {}
 ##     APP_KEY: "mysecretkey"
 ##     DATABASE_URL: "postgres://user:password@host:port/dbname"
 secrets: {}
+
+## The update strategy for Deployment, DaemonSet, StatefulSet
+## E.g.
+## updateStrategy:
+##   type: RollingUpdate
+##   rollingUpdate:
+##     maxSure: 25%
+##     maxUnavailable: 25%
+updateStrategy: {}
+
+## The StatefulSet configuration
+##
+statefulSet:
+  ordinals: {}
+  serviceName: ""
+  podManagementPolicy: ""
+  persistentVolumeClaimRetentionPolicy: {}
+  volumeClaimTemplates: {}
+
+## The cronjob configuration
+##
+cronJob:
+  ## The schdule in Cron format
+  ## https://en.wikipedia.org/wiki/Cron
+  ## E.g.
+  ## * * * * *
+  ## | | | | |
+  ## | | | | day of the week (0–6) (Sunday to Saturday;
+  ## | | | month (1–12)             7 is also Sunday on some systems)
+  ## | | day of the month (1–31)
+  ## | hour (0–23)
+  ## minute (0–59)
+  schedule: "* * * * *"
+
+  ## The time zone name for the given schedule
+  ## https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  ##
+  timeZone: ""
+  concurrencyPolicy: Allow
+  # startingDeadlineSeconds: 0
+
+  ## Job spec
+  ##
+  # backoffLimit: <integer>
+  # backoffLimitPerIndex: <integer>
+  # parallelism: <integer>
+  # completions: <integer>
+  # activeDeadlineSeconds: <integer>
+  # completionMode: Indexed / NonIndexed
+  # manualSelector: <boolean>
+  # maxFailedIndexes: <integer>
+  # podFailurePolicy: {}
+  # podReplacementPolicy: Failed / TerminatingOrFailed
+  # ttlSecondsAfterFinished: <integer>

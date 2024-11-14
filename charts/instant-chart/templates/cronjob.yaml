@@ -1,0 +1,36 @@
+{{- $kind := include "instant-chart.resource.kind" . -}}
+
+{{- if eq $kind "CronJob" -}}
+{{- if .Values.containers }}
+apiVersion: {{ template "common.capabilities.cronjob.apiVersion" . }}
+kind: {{ $kind }}
+metadata:
+  name: {{ include "common.names.fullname" . }}
+  labels:
+    {{- include "instant-chart.labels" . | nindent 4 }}
+  annotations:
+    checksum/configmaps: {{ include (print $.Template.BasePath "/configmaps.yaml") . | sha256sum }}
+    checksum/secrets: {{ include (print $.Template.BasePath "/secrets.yaml") . | sha256sum }}
+    {{- with .Values.global.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  schedule: {{ .Values.cronJob.schedule | quote }}
+  {{- if .Values.cronJob.timeZone }}
+  timeZone: {{ .Values.cronJob.timeZone }}
+  {{- end }}
+  concurrencyPolicy: {{ .Values.cronJob.concurrencyPolicy }}
+  {{- if hasKey .Values.cronJob "startingDeadlineSeconds" }}
+  startingDeadlineSeconds: {{ .Values.cronJob.startingDeadlineSeconds }}
+  {{- end }}
+  jobTemplate:
+    metadata:
+      name: {{ include "common.names.fullname" . }}
+      labels:
+        {{- include "instant-chart.labels" . | nindent 8 }}
+    spec:
+      {{- omit .Values.cronJob "schedule" "timeZone" "concurrencyPolicy" "startingDeadlineSeconds" | toYaml | nindent 6 }}
+      template:
+        {{- include "instant-chart.podTemplate" . | nindent 8 }}
+{{- end }}
+{{- end -}}

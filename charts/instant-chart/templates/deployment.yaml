@@ -21,5 +21,7 @@ spec:
       {{- include "instant-chart.matchLabels" . | nindent 6 }}
   template:
     {{- include "instant-chart.podTemplate" . | nindent 4 }}
+  strategy:
+    {{- include "instant-chart.resource.updateStrategy" . | nindent 4 }}
 {{- end }}
 {{- end -}}
