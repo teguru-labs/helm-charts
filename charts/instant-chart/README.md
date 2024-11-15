@@ -96,19 +96,21 @@ See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command docu
 
 ### Deployment parameters
 
-| Name               | Description                                                                                                      | Default |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------- | ------- |
-| `replicas`         | Number of pod replicas.                                                                                          | `1`     |
-| `containers`       | A list of containers belonging to the pod.                                                                       | `[]`    |
-| `initContainers`   | Additional initialization containers.                                                                            | `[]`    |
-| `volumes`          | A list of volumes to be added to the pod. PVC will be created if `volumes.persistentVolumeClaim.requests` found. | `[]`    |
-| `imagePullSecrets` | Reference to one or more secrets to be used when pulling images.                                                 | `[]`    |
-| `registryLogin`    | Create a Secret to provide the registry credentials for pulling private images.                                  | `[]`    |
-| `securityContext`  | Define privilege and access control settings for a Pod or Container.                                             | `{}`    |
-| `dnsConfig`        | DNS configuration for the pod.                                                                                   | `{}`    |
-| `hostAliases`      | Host aliases for the pod.                                                                                        | `[]`    |
-| `overhead`         | Overhead for the pod.                                                                                            | `{}`    |
-| `readinessGates`   | Readiness gates for the pod.                                                                                     | `[]`    |
+| Name               | Description                                                                                                      | Default     |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------- | ----------- |
+| `replicas`         | Number of pod replicas.                                                                                          | `1`         |
+| `containers`       | A list of containers belonging to the pod.                                                                       | `[]`        |
+| `initContainers`   | Additional initialization containers.                                                                            | `[]`        |
+| `volumes`          | A list of volumes to be added to the pod. PVC will be created if `volumes.persistentVolumeClaim.requests` found. | `[]`        |
+| `imagePullSecrets` | Reference to one or more secrets to be used when pulling images.                                                 | `[]`        |
+| `registryLogin`    | Create a Secret to provide the registry credentials for pulling private images.                                  | `[]`        |
+| `securityContext`  | Define privilege and access control settings for a Pod or Container.                                             | `{}`        |
+| `dnsConfig`        | DNS configuration for the pod.                                                                                   | `{}`        |
+| `hostAliases`      | Host aliases for the pod.                                                                                        | `[]`        |
+| `overhead`         | Overhead for the pod.                                                                                            | `{}`        |
+| `readinessGates`   | Readiness gates for the pod.                                                                                     | `[]`        |
+| `restartPolicy`    | Restart policy for all containers within the pod .                                                               | `OnFailure` |
+| `updateStrategy`   | Defines the update strategy configuration for Deployment, StatefulSet, DaemonSet.                                |             |
 
 ### Configuration parameters
 
