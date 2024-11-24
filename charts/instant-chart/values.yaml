@@ -65,7 +65,7 @@ initContainers: []
 
 ## Pod restart policy
 ##
-restartPolicy: OnFailure
+restartPolicy: ""
 
 ## A list of volumes to be added to the pod
 ## E.g.
