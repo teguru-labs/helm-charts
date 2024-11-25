@@ -728,8 +728,7 @@
       "title": "Pod restart policy",
       "description": "Restart policy for all containers within the pod",
       "type": "string",
-      "enum": ["Always", "OnFailure", "Never", ""],
-      "default": "OnFailure"
+      "enum": ["Always", "OnFailure", "Never", ""]
     },
     "imagePatches": {
       "additionalProperties": {

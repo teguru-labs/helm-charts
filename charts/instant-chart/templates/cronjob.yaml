@@ -29,7 +29,12 @@ spec:
       labels:
         {{- include "instant-chart.labels" . | nindent 8 }}
     spec:
-      {{- omit .Values.cronJob "schedule" "timeZone" "concurrencyPolicy" "startingDeadlineSeconds" | toYaml | nindent 6 }}
+      {{- $defaultValues := dict "schedule" nil "timeZone" nil "concurrencyPolicy" nil "startingDeadlineSeconds" nil -}}
+      {{- $job := merge $defaultValues .Values.cronJob -}}
+      {{- $job = omit $job "schedule" "timeZone" "concurrencyPolicy" "startingDeadlineSeconds" -}}
+      {{- with $job -}}
+      {{- . | toYaml | nindent 6 }}
+      {{- end }}
       template:
         {{- include "instant-chart.podTemplate" . | nindent 8 }}
 {{- end }}
