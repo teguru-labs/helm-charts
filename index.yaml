@@ -9,7 +9,7 @@ entries:
       version: 2.20.5
     description: A Helm chart enables rapid deployment
     digest: 6b3bcc25d50de3e7963daa31fa9e3963bc2ea8c91e3ed78f75c53a4016748819
-    icon: https://charts.phelab.com/assets/icons/instant-chart.png
+    icon: https://charts.teguru.com/assets/icons/instant-chart.png
     keywords:
     - common-app
     - component
@@ -19,7 +19,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.5.2/instant-chart-0.5.2.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.5.2/instant-chart-0.5.2.tgz
     version: 0.5.2
   - apiVersion: v2
     created: "2024-11-24T04:27:17.330553699Z"
@@ -29,7 +29,7 @@ entries:
       version: 2.20.5
     description: A Helm chart enables rapid deployment
     digest: 5cb82961bd8f0a6b8f64fd339797f3b7cfde19096682d28fbb4f29ed181dc6a0
-    icon: https://charts.phelab.com/assets/icons/instant-chart.png
+    icon: https://charts.teguru.com/assets/icons/instant-chart.png
     keywords:
     - common-app
     - component
@@ -39,7 +39,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.5.1/instant-chart-0.5.1.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.5.1/instant-chart-0.5.1.tgz
     version: 0.5.1
   - apiVersion: v2
     created: "2024-11-15T01:41:48.432595374Z"
@@ -49,7 +49,7 @@ entries:
       version: 2.20.5
     description: A Helm chart enables rapid deployment
     digest: 750c34ad31a5664c47a0b1a15cbd7afbc054ee97daba5941f54c952012fb3e81
-    icon: https://charts.phelab.com/assets/icons/instant-chart.png
+    icon: https://charts.teguru.com/assets/icons/instant-chart.png
     keywords:
     - common-app
     - component
@@ -59,7 +59,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.5.0/instant-chart-0.5.0.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.5.0/instant-chart-0.5.0.tgz
     version: 0.5.0
   - apiVersion: v2
     created: "2024-10-01T10:15:03.824981944Z"
@@ -69,7 +69,7 @@ entries:
       version: 2.20.5
     description: A Helm chart enables rapid deployment
     digest: 525651c88b73ec4957908b79342b1a4fba0c141dfcade367c844fea3ac138fb1
-    icon: https://charts.phelab.com/assets/icons/instant-chart.png
+    icon: https://charts.teguru.com/assets/icons/instant-chart.png
     keywords:
     - common-app
     - component
@@ -79,7 +79,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.4.7/instant-chart-0.4.7.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.4.7/instant-chart-0.4.7.tgz
     version: 0.4.7
   - apiVersion: v2
     created: "2024-08-08T08:54:38.382009137Z"
@@ -89,7 +89,7 @@ entries:
       version: 2.20.5
     description: A Helm chart enables rapid deployment
     digest: 6b82ca7c1dda21253f042b64e124b105b91d6f6a9dad9f70e4e966c936215369
-    icon: https://charts.phelab.com/assets/icons/instant-chart.png
+    icon: https://charts.teguru.com/assets/icons/instant-chart.png
     keywords:
     - common-app
     - component
@@ -99,7 +99,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.4.6/instant-chart-0.4.6.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.4.6/instant-chart-0.4.6.tgz
     version: 0.4.6
   - apiVersion: v2
     created: "2024-08-07T06:59:29.170042178Z"
@@ -109,7 +109,7 @@ entries:
       version: 2.20.5
     description: A Helm chart enables rapid deployment
     digest: 3cf2eb66814ff0e742284e0cf95728fb8781ced73993931cf2f64b54824b1096
-    icon: https://charts.phelab.com/assets/icons/instant-chart.png
+    icon: https://charts.teguru.com/assets/icons/instant-chart.png
     keywords:
     - common-app
     - component
@@ -119,7 +119,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.4.5/instant-chart-0.4.5.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.4.5/instant-chart-0.4.5.tgz
     version: 0.4.5
   - apiVersion: v2
     created: "2024-08-07T06:54:32.727408525Z"
@@ -129,7 +129,7 @@ entries:
       version: 2.20.5
     description: A Helm chart enables rapid deployment
     digest: 3b4bd453c0783e43d3b1267f98faf8492402d4b95b68f30d36970c84316d0e36
-    icon: https://charts.phelab.com/assets/icons/instant-chart.png
+    icon: https://charts.teguru.com/assets/icons/instant-chart.png
     keywords:
     - common-app
     - component
@@ -139,7 +139,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.4.4/instant-chart-0.4.4.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.4.4/instant-chart-0.4.4.tgz
     version: 0.4.4
   - apiVersion: v2
     created: "2024-08-07T06:40:36.347413808Z"
@@ -149,7 +149,7 @@ entries:
       version: 2.20.5
     description: A Helm chart enables rapid deployment
     digest: 77f208ad179e85b3e0d6b0c5c07111d5cb94188bee74d26d8cbef8465e18572a
-    icon: https://charts.phelab.com/assets/icons/instant-chart.png
+    icon: https://charts.teguru.com/assets/icons/instant-chart.png
     keywords:
     - common-app
     - component
@@ -159,7 +159,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.4.3/instant-chart-0.4.3.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.4.3/instant-chart-0.4.3.tgz
     version: 0.4.3
   - apiVersion: v2
     created: "2024-08-06T05:11:06.246076864Z"
@@ -169,7 +169,7 @@ entries:
       version: 2.20.5
     description: A Helm chart enables rapid deployment
     digest: 331454df6c603dcc0b838717a9d810a971105e58aa9b8c675f4efac8763cc029
-    icon: https://charts.phelab.com/assets/icons/instant-chart.png
+    icon: https://charts.teguru.com/assets/icons/instant-chart.png
     keywords:
     - common-app
     - component
@@ -179,7 +179,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.4.2/instant-chart-0.4.2.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.4.2/instant-chart-0.4.2.tgz
     version: 0.4.2
   - apiVersion: v2
     created: "2024-08-05T09:23:15.25428138Z"
@@ -189,7 +189,7 @@ entries:
       version: 2.20.5
     description: A Helm chart enables rapid deployment
     digest: cc2f25f36123d28446bad0ffe9e14cab907b3c10234cf59cdb019450e83bc2ec
-    icon: https://charts.phelab.com/assets/icons/instant-chart.png
+    icon: https://charts.teguru.com/assets/icons/instant-chart.png
     keywords:
     - common-app
     - component
@@ -199,7 +199,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.4.1/instant-chart-0.4.1.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.4.1/instant-chart-0.4.1.tgz
     version: 0.4.1
   - apiVersion: v2
     created: "2024-08-04T09:51:48.818501768Z"
@@ -212,7 +212,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.4.0/instant-chart-0.4.0.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.4.0/instant-chart-0.4.0.tgz
     version: 0.4.0
   - apiVersion: v2
     created: "2024-08-03T16:28:25.999411521Z"
@@ -225,7 +225,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.3.0/instant-chart-0.3.0.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.3.0/instant-chart-0.3.0.tgz
     version: 0.3.0
   - apiVersion: v2
     created: "2024-08-03T15:44:52.496530081Z"
@@ -238,7 +238,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.2.1/instant-chart-0.2.1.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.2.1/instant-chart-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v2
     created: "2024-08-03T13:56:34.242288416Z"
@@ -251,7 +251,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.2.0/instant-chart-0.2.0.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.2.0/instant-chart-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v2
     created: "2024-08-01T07:47:13.397335663Z"
@@ -264,7 +264,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.1.6/instant-chart-0.1.6.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.1.6/instant-chart-0.1.6.tgz
     version: 0.1.6
   - apiVersion: v2
     created: "2024-07-26T07:01:00.462853731Z"
@@ -277,7 +277,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.1.5/instant-chart-0.1.5.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.1.5/instant-chart-0.1.5.tgz
     version: 0.1.5
   - apiVersion: v2
     created: "2024-07-26T04:35:22.471527383Z"
@@ -290,7 +290,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.1.4/instant-chart-0.1.4.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.1.4/instant-chart-0.1.4.tgz
     version: 0.1.4
   - apiVersion: v2
     created: "2024-07-19T09:28:55.037057569Z"
@@ -303,7 +303,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.1.3/instant-chart-0.1.3.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.1.3/instant-chart-0.1.3.tgz
     version: 0.1.3
   - apiVersion: v2
     created: "2024-07-19T07:26:22.992653314Z"
@@ -316,7 +316,7 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.1.2/instant-chart-0.1.2.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.1.2/instant-chart-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v2
     created: "2024-07-19T13:42:58.250977512+07:00"
@@ -329,6 +329,6 @@ entries:
     name: instant-chart
     type: application
     urls:
-    - https://github.com/phe-lab/helm-charts/releases/download/instant-chart-0.1.1/instant-chart-0.1.1.tgz
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.1.1/instant-chart-0.1.1.tgz
     version: 0.1.1
 generated: "2024-11-25T07:22:40.385918734Z"
