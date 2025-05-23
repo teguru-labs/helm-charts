@@ -5,7 +5,7 @@
 apiVersion: {{ template "common.capabilities.cronjob.apiVersion" . }}
 kind: {{ $kind }}
 metadata:
-  name: {{ include "common.names.fullname" . }}
+  name: {{ .Release.Name }}
   labels:
     {{- include "instant-chart.labels" . | nindent 4 }}
   annotations:
@@ -25,7 +25,7 @@ spec:
   {{- end }}
   jobTemplate:
     metadata:
-      name: {{ include "common.names.fullname" . }}
+      name: {{ .Release.Name }}
       labels:
         {{- include "instant-chart.labels" . | nindent 8 }}
     spec:

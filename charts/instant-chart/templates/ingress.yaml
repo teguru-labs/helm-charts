@@ -1,6 +1,5 @@
 {{- if .Values.ingress.enabled -}}
 {{- $defaultPort := (include "instant-chart.firstServicePort" . | fromYaml).port -}}
-{{- $fullname := include "common.names.fullname" . -}}
 {{- if eq (include "common.ingress.supportsIngressClassname" .) "false" }}
   {{- if not (hasKey .Values.ingress.annotations "kubernetes.io/ingress.class") }}
   {{- $_ := set .Values.ingress.annotations "kubernetes.io/ingress.class" .Values.ingress.className}}
@@ -9,7 +8,7 @@
 apiVersion: {{ template "common.capabilities.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
-  name: {{ $fullname }}
+  name: {{ .Release.Name }}
   labels:
     {{- include "instant-chart.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
@@ -45,7 +44,7 @@ spec:
         {{- end }}
         backend:
           {{- include "common.ingress.backend" (dict
-            "serviceName" (default $fullname .serviceName)
+            "serviceName" (default .Release.Name .serviceName)
             "servicePort" (default $defaultPort .servicePort)
             "context" $
           ) | nindent 10 }}

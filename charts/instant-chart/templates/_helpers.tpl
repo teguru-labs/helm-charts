@@ -29,7 +29,7 @@ Usage:
 */}}
 {{- define "instant-chart.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "common.names.fullname" .) .Values.serviceAccount.name }}
+{{- default .Release.Name .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
@@ -41,7 +41,7 @@ Usage:
 {{ include "instant-chart.pullSecretName" . }}
 */}}
 {{- define "instant-chart.pullSecretName" -}}
-{{- include "common.names.fullname" . }}-pull-secret
+{{ .Release.Name }}-pull-secret
 {{- end }}
 
 {{/*

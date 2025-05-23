@@ -5,7 +5,7 @@
 apiVersion: {{ template "common.capabilities.deployment.apiVersion" . }}
 kind: {{ $kind }}
 metadata:
-  name: {{ include "common.names.fullname" . }}
+  name: {{ .Release.Name }}
   labels:
     {{- include "instant-chart.labels" . | nindent 4 }}
   annotations:
