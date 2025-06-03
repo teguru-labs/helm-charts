@@ -688,11 +688,6 @@
       "description": "This value is used to override the default chart name used when creating resources. If you only want to change the short name of the chart without affecting the full name, you can use nameOverride.",
       "type": "string"
     },
-    "fullnameOverride": {
-      "title": "Override the fullname of the resources",
-      "description": "This value allows you to set the fullname for the resources generated, regardless of Helm's default naming convention. This is useful when you want to ensure that the names of the resources are entirely to your liking without relying on Helm's default naming logic.",
-      "type": "string"
-    },
     "kind": {
       "title": "The resource kind",
       "description": "One of values: Deployment, DaemonSet, StatefulSet",

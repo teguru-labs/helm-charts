@@ -44,7 +44,7 @@ spec:
         {{- end }}
         backend:
           {{- include "common.ingress.backend" (dict
-            "serviceName" (default .Release.Name .serviceName)
+            "serviceName" (default $.Release.Name .serviceName)
             "servicePort" (default $defaultPort .servicePort)
             "context" $
           ) | nindent 10 }}

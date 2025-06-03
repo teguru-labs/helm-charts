@@ -2,10 +2,6 @@
 ##
 nameOverride: ""
 
-## Override the full name of resources
-##
-fullnameOverride: ""
-
 ## Global config will apply to all resources
 ##
 global:
