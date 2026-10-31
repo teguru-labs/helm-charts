@@ -156,7 +156,7 @@ Requires the [Gateway API](https://gateway-api.sigs.k8s.io/) CRDs (v1.0+) and a 
 
 - If `httpRoute.rules` is empty, all requests (`PathPrefix /`) are routed to the Service of this chart.
 - If a rule has no `backendRefs`, the Service of this chart and its first port are used, except for a rule with a `RequestRedirect` filter. Set `backendRefs: []` to render a rule without backends.
-- A backend without `name` points to the Service of this chart, using its first port unless `port` is set. A backend with `name` is rendered as-is.
+- A backend without `name` points to the Service of this chart, using its first port unless `port` is set. A backend with `name` is rendered as-is, so it must set its own `port`.
 
 For example:
 
