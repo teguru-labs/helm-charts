@@ -220,6 +220,53 @@ ingress:
   ##       - chart-example.local
   tls: []
 
+## Gateway API HTTPRoute configuration
+## Requires the Gateway API CRDs (v1.0+) and a Gateway controller installed in the cluster.
+## ref: https://gateway-api.sigs.k8s.io/api-types/httproute/
+##
+httpRoute:
+  enabled: false
+
+  ## Optionally specify additional annotations to the HTTPRoute.
+  ##
+  annotations: {}
+
+  ## The Gateways this route attaches to. Required when `httpRoute.enabled` is true.
+  ## E.g.
+  ## parentRefs:
+  ##   - name: public-gateway
+  ##     namespace: gateway-system # optional, default: the release namespace
+  ##     sectionName: https # optional, attach to a specific listener of the Gateway
+  parentRefs: []
+
+  ## Hostnames matched against the HTTP Host header.
+  ## E.g.
+  ## hostnames:
+  ##   - chart-example.local
+  hostnames: []
+
+  ## The list of HTTPRoute rules. If empty, all requests are routed to the Service of this chart.
+  ## Each rule accepts every HTTPRouteRule field: matches, filters, timeouts, .etc.
+  ## A rule without `backendRefs` is routed to the Service of this chart, except a rule with
+  ## a `RequestRedirect` filter. Set `backendRefs: []` to render a rule without backends.
+  ## E.g.
+  ## rules:
+  ##   - matches:
+  ##       - path:
+  ##           type: PathPrefix # PathPrefix, Exact, RegularExpression
+  ##           value: /api
+  ##     filters: [] # optional
+  ##     backendRefs: # optional, default: the Service of this chart
+  ##       - name: "" # optional, default: the Service of this chart. A named backend is rendered as-is
+  ##         port: 80 # optional when `name` is empty, default the first port in Service definition
+  ##         weight: 1 # optional
+  ##   - filters: # redirect HTTP to HTTPS, no backend is added
+  ##       - type: RequestRedirect
+  ##         requestRedirect:
+  ##           scheme: https
+  ##           statusCode: 301
+  rules: []
+
 ## List of ConfigMaps to create, for storing non-sensitive data
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
 ## E.g.

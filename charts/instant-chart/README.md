@@ -6,7 +6,7 @@ A Helm chart enables rapid deployment.
 
 - Supports Deployment, StatefulSet, DaemonSet, and CronJob
 - Config management via ConfigMap and Secret
-- Includes Service and Ingress resources
+- Includes Service, Ingress and Gateway API HTTPRoute resources
 - ArgoCD, FluxCD compatible
 
 ## Prerequisites
@@ -141,6 +141,43 @@ See [helm uninstall](https://helm.sh/docs/helm/helm_uninstall/) for command docu
 | `ingress.annotations` | Optionally specify additional annotations for the ingress. | `{}`    |
 | `ingress.rules`       | The list of rules for the ingress.                         | `[]`    |
 | `ingress.tls`         | Ingress TLS configuration.                                 | `[]`    |
+
+### HTTPRoute (Gateway API) parameters
+
+Requires the [Gateway API](https://gateway-api.sigs.k8s.io/) CRDs (v1.0+) and a Gateway controller installed in the cluster. The HTTPRoute can be enabled together with the Ingress, e.g. while migrating from Ingress to Gateway API.
+
+| Name                    | Description                                                                                  | Default |
+| ----------------------- | -------------------------------------------------------------------------------------------- | ------- |
+| `httpRoute.enabled`     | Specifies whether an HTTPRoute should be created.                                            | `false` |
+| `httpRoute.annotations` | Optionally specify additional annotations for the HTTPRoute.                                 | `{}`    |
+| `httpRoute.parentRefs`  | The Gateways the route attaches to. Required when `httpRoute.enabled` is `true`.             | `[]`    |
+| `httpRoute.hostnames`   | Hostnames matched against the HTTP Host header.                                              | `[]`    |
+| `httpRoute.rules`       | The list of HTTPRoute rules. Each rule accepts every HTTPRouteRule field (matches, filters…). | `[]`    |
+
+- If `httpRoute.rules` is empty, all requests (`PathPrefix /`) are routed to the Service of this chart.
+- If a rule has no `backendRefs`, the Service of this chart and its first port are used, except for a rule with a `RequestRedirect` filter. Set `backendRefs: []` to render a rule without backends.
+- A backend without `name` points to the Service of this chart, using its first port unless `port` is set. A backend with `name` is rendered as-is.
+
+For example:
+
+```yaml
+# values.yaml
+httpRoute:
+  enabled: true
+  parentRefs:
+  - name: public-gateway
+    namespace: gateway-system
+    sectionName: https
+  hostnames:
+  - app.example.com
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api
+    timeouts:
+      request: 10s
+```
 
 ### Pod Scheduling parameters
 

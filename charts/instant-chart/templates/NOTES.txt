@@ -1,9 +1,18 @@
 1. Get the application URL by running these commands:
+{{- if or .Values.ingress.enabled .Values.httpRoute.enabled }}
 {{- if .Values.ingress.enabled }}
 {{- range $rule := .Values.ingress.rules }}
   {{- range .paths }}
   http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $rule.host }}{{ .path }}
   {{- end }}
+{{- end }}
+{{- end }}
+{{- if .Values.httpRoute.enabled }}
+{{- range .Values.httpRoute.hostnames }}
+  {{ . }}
+{{- end }}
+     NOTE: The HTTPRoute scheme and port depend on the listeners of its parent Gateway.
+           Check whether the route is accepted by running 'kubectl get --namespace {{ .Release.Namespace }} httproute {{ .Release.Name }} -o yaml'
 {{- end }}
 {{- else if contains "NodePort" .Values.service.type }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ .Release.Name }})

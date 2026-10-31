@@ -1,0 +1,50 @@
+{{- if .Values.httpRoute.enabled -}}
+{{- if not .Values.httpRoute.parentRefs }}
+{{- fail "httpRoute.parentRefs is required when httpRoute.enabled is true" }}
+{{- end }}
+{{- $defaultPort := (include "instant-chart.firstServicePort" . | fromYaml).port -}}
+{{- $defaultBackend := dict "name" .Release.Name "port" $defaultPort -}}
+{{- $catchAllRule := dict "matches" (list (dict "path" (dict "type" "PathPrefix" "value" "/"))) -}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    {{- include "instant-chart.labels" . | nindent 4 }}
+  {{- with .Values.httpRoute.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  parentRefs:
+  {{- toYaml .Values.httpRoute.parentRefs | nindent 2 }}
+  {{- with .Values.httpRoute.hostnames }}
+  hostnames:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+  rules:
+  {{- range (.Values.httpRoute.rules | default (list $catchAllRule)) }}
+  {{- $rule := omit . "backendRefs" }}
+  {{- /* A RequestRedirect rule must not have backends, so it gets no default backend */}}
+  {{- $isRedirect := false }}
+  {{- range .filters }}
+  {{- if eq (.type | default "") "RequestRedirect" }}{{ $isRedirect = true }}{{ end }}
+  {{- end }}
+  {{- $backendRefs := list }}
+  {{- if hasKey . "backendRefs" }}
+  {{- range .backendRefs }}
+  {{- if .name }}
+  {{- $backendRefs = append $backendRefs . }}
+  {{- else }}
+  {{- $backendRefs = append $backendRefs (merge (deepCopy .) $defaultBackend) }}
+  {{- end }}
+  {{- end }}
+  {{- else if not $isRedirect }}
+  {{- $backendRefs = list $defaultBackend }}
+  {{- end }}
+  {{- if $backendRefs }}
+  {{- $rule = set $rule "backendRefs" $backendRefs }}
+  {{- end }}
+  - {{ toYaml $rule | indent 4 | trim }}
+  {{- end }}
+{{- end }}
