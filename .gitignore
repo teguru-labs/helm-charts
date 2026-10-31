@@ -22,6 +22,7 @@ charts/**/charts
 .env.*
 
 # Tooling
+plans/
 .orca/
 .claude/
 graphify-out/
