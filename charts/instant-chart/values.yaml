@@ -267,6 +267,38 @@ httpRoute:
   ##           statusCode: 301
   rules: []
 
+## NetworkPolicies to create, keyed by policy name. Each NetworkPolicy is named `<release name>-<key>`.
+## Requires a network plugin that enforces NetworkPolicy, e.g. Calico or Cilium.
+## ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+## Each value is a NetworkPolicy spec: podSelector, policyTypes, ingress, egress.
+## `podSelector` defaults to the Pods of this chart; set `podSelector: {}` to select all Pods in the namespace.
+## `egress` requires `policyTypes` with `Egress`, otherwise Kubernetes would not enforce it.
+## Policy keys must be lowercase alphanumerics and `-`. Set a policy to null in another values file to remove it.
+## E.g.
+## networkPolicies:
+##   allow-ingress-controller: # only the ingress controller can reach the app on port 8080
+##     policyTypes: [Ingress]
+##     ingress:
+##       - from:
+##           - namespaceSelector:
+##               matchLabels:
+##                 kubernetes.io/metadata.name: ingress-nginx
+##         ports:
+##           - port: 8080
+##   allow-dns-egress: # deny all egress except DNS lookups
+##     policyTypes: [Egress]
+##     egress:
+##       - to:
+##           - namespaceSelector:
+##               matchLabels:
+##                 kubernetes.io/metadata.name: kube-system
+##         ports:
+##           - port: 53
+##             protocol: UDP
+##           - port: 53
+##             protocol: TCP
+networkPolicies: {}
+
 ## List of ConfigMaps to create, for storing non-sensitive data
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
 ## E.g.

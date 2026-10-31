@@ -342,6 +342,212 @@
       "required": ["rules"],
       "type": "object"
     },
+    "NetworkPolicyConfig": {
+      "title": "NetworkPolicy configuration",
+      "description": "Similar to networkPolicy.spec. Unknown fields are rejected, since a typo could silently allow more traffic. Rules for a direction are only enforced when 'policyTypes' includes that direction, so 'egress' requires 'policyTypes' with 'Egress', and 'ingress' requires 'Ingress' when 'policyTypes' is set.",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "required": ["egress"]
+          },
+          "then": {
+            "required": ["policyTypes"],
+            "properties": {
+              "policyTypes": {
+                "contains": {
+                  "const": "Egress"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "required": ["ingress", "policyTypes"]
+          },
+          "then": {
+            "properties": {
+              "policyTypes": {
+                "contains": {
+                  "const": "Ingress"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "properties": {
+        "podSelector": {
+          "$ref": "#/$defs/LabelSelector",
+          "title": "Pods the policy applies to",
+          "description": "Defaults to the Pods of this chart. Set to {} to select all Pods in the namespace"
+        },
+        "policyTypes": {
+          "title": "Policy types",
+          "description": "Directions the policy applies to. Required when 'egress' is set. Defaults to Ingress",
+          "items": {
+            "enum": ["Ingress", "Egress"],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "ingress": {
+          "title": "Allowed incoming traffic",
+          "description": "An empty list denies all incoming traffic",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "from": {
+                "title": "Allowed sources",
+                "description": "Defaults to all sources",
+                "items": {
+                  "$ref": "#/$defs/NetworkPolicyPeer"
+                },
+                "type": "array"
+              },
+              "ports": {
+                "title": "Allowed ports",
+                "description": "Defaults to all ports",
+                "items": {
+                  "$ref": "#/$defs/NetworkPolicyPort"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "egress": {
+          "title": "Allowed outgoing traffic",
+          "description": "Requires 'policyTypes' with 'Egress'. An empty list denies all outgoing traffic",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "to": {
+                "title": "Allowed destinations",
+                "description": "Defaults to all destinations",
+                "items": {
+                  "$ref": "#/$defs/NetworkPolicyPeer"
+                },
+                "type": "array"
+              },
+              "ports": {
+                "title": "Allowed ports",
+                "description": "Defaults to all ports",
+                "items": {
+                  "$ref": "#/$defs/NetworkPolicyPort"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "NetworkPolicyPeer": {
+      "title": "Traffic source or destination",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "podSelector": {
+          "$ref": "#/$defs/LabelSelector"
+        },
+        "namespaceSelector": {
+          "$ref": "#/$defs/LabelSelector"
+        },
+        "ipBlock": {
+          "additionalProperties": false,
+          "properties": {
+            "cidr": {
+              "type": "string",
+              "minLength": 1
+            },
+            "except": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": ["cidr"],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "NetworkPolicyPort": {
+      "title": "Network port",
+      "additionalProperties": false,
+      "properties": {
+        "protocol": {
+          "description": "Defaults to 'TCP'",
+          "enum": ["TCP", "UDP", "SCTP"],
+          "type": "string"
+        },
+        "port": {
+          "description": "Port number or named container port",
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535
+            },
+            {
+              "type": "string",
+              "minLength": 1
+            }
+          ]
+        },
+        "endPort": {
+          "description": "Last port of a range starting at 'port'",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        }
+      },
+      "type": "object"
+    },
+    "LabelSelector": {
+      "title": "Label selector",
+      "additionalProperties": false,
+      "properties": {
+        "matchLabels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "matchExpressions": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "operator": {
+                "enum": ["In", "NotIn", "Exists", "DoesNotExist"],
+                "type": "string"
+              },
+              "values": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "required": ["key", "operator"],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
     "HTTPRouteConfig": {
       "title": "Gateway API HTTPRoute configuration",
       "description": "Requires the Gateway API CRDs (v1.0+) and a Gateway controller installed in the cluster",
@@ -881,6 +1087,25 @@
     },
     "httpRoute": {
       "$ref": "#/$defs/HTTPRouteConfig"
+    },
+    "networkPolicies": {
+      "title": "Create NetworkPolicies",
+      "description": "Each key is a policy name and the NetworkPolicy is named '<release name>-<key>'. Set a policy to null to remove it.",
+      "propertyNames": {
+        "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+        "maxLength": 200
+      },
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/NetworkPolicyConfig"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "type": "object"
     },
     "configMaps": {
       "additionalProperties": {

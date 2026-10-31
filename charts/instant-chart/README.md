@@ -7,6 +7,7 @@ A Helm chart enables rapid deployment.
 - Supports Deployment, StatefulSet, DaemonSet, and CronJob
 - Config management via ConfigMap and Secret
 - Includes Service, Ingress and Gateway API HTTPRoute resources
+- Multiple NetworkPolicies per release
 - ArgoCD, FluxCD compatible
 
 ## Prerequisites
@@ -177,6 +178,51 @@ httpRoute:
         value: /api
     timeouts:
       request: 10s
+```
+
+### NetworkPolicy parameters
+
+Requires a network plugin that enforces [NetworkPolicy](https://kubernetes.io/docs/concepts/services-networking/network-policies/), e.g. Calico or Cilium.
+
+| Name              | Description                                                                                   | Default |
+| ----------------- | --------------------------------------------------------------------------------------------- | ------- |
+| `networkPolicies` | NetworkPolicies to create, keyed by policy name. Each value is a NetworkPolicy spec.          | `{}`    |
+
+- Each NetworkPolicy is named `<release name>-<key>`, so several releases can use the same policy names in one namespace. Keys must be lowercase alphanumerics and `-`.
+- `podSelector` defaults to the Pods of this chart. Set `podSelector: {}` to select all Pods in the namespace.
+- The spec is rendered as-is. Kubernetes ignores the rules of a direction missing from `policyTypes`, and leaves `Egress` out of the default `policyTypes` when `egress` is empty. To avoid these surprises, the values schema requires `policyTypes` with `Egress` whenever `egress` is set, and rejects `ingress` rules when `policyTypes` is set without `Ingress`.
+- `ingress: []`, or an empty policy `{}`, denies all incoming traffic. To deny all outgoing traffic, set `policyTypes: [Egress]` with `egress: []`.
+- Unknown fields are rejected by the values schema, since a typo such as `form` instead of `from` would allow traffic from every source.
+- Policies are merged by key across values files. Set a policy to `null` to remove it, e.g. `networkPolicies.allow-dns-egress: null`.
+
+For example:
+
+```yaml
+# values.yaml
+networkPolicies:
+  # Only the ingress controller can reach the app on port 8080
+  allow-ingress-controller:
+    policyTypes: [Ingress]
+    ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: ingress-nginx
+      ports:
+      - port: 8080
+  # Deny all egress except DNS lookups
+  allow-dns-egress:
+    policyTypes: [Egress]
+    egress:
+    - to:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: kube-system
+      ports:
+      - port: 53
+        protocol: UDP
+      - port: 53
+        protocol: TCP
 ```
 
 ### Pod Scheduling parameters
