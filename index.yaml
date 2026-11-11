@@ -2,6 +2,26 @@ apiVersion: v1
 entries:
   instant-chart:
   - apiVersion: v2
+    created: "2026-11-11T10:29:41.51303473Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 2.20.5
+    description: A Helm chart enables rapid deployment
+    digest: 1ee1209b70c3e773b642d9d06c6c1f097632f7638619e644bcefd9e3f2158846
+    icon: https://charts.teguru.com/assets/icons/instant-chart.png
+    keywords:
+    - common-app
+    - component
+    - instance
+    - general
+    - teguru
+    name: instant-chart
+    type: application
+    urls:
+    - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-1.2.3/instant-chart-1.2.3.tgz
+    version: 1.2.3
+  - apiVersion: v2
     created: "2026-11-11T07:29:33.045422318Z"
     dependencies:
     - name: common
@@ -461,4 +481,4 @@ entries:
     urls:
     - https://github.com/teguru-labs/helm-charts/releases/download/instant-chart-0.1.1/instant-chart-0.1.1.tgz
     version: 0.1.1
-generated: "2026-11-11T07:29:33.045701129Z"
+generated: "2026-11-11T10:29:41.513173957Z"
