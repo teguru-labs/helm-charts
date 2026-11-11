@@ -10,7 +10,7 @@ spec:
   {{- include "instant-chart.containers" (dict "containers" .Values.containers "prefix" "container" "imagePatches" .Values.imagePatches) | trim | nindent 2 -}}
   {{- with .Values.initContainers }}
   initContainers:
-  {{- include "instant-chart.containers" (dict "containers" . "prefix" "init" "imagePatches" .Values.imagePatches) | trim | nindent 2 -}}
+  {{- include "instant-chart.containers" (dict "containers" . "prefix" "init" "imagePatches" $.Values.imagePatches) | trim | nindent 2 -}}
   {{- end }}
   {{- if .Values.volumes }}
   volumes:
