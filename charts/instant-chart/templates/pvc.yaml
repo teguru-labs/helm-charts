@@ -15,7 +15,7 @@ metadata:
 spec:
   storageClassName: {{ default .storageClass $.Values.global.storageClass | default $.Values.global.defaultStorageClass }}
   accessModes:
-    {{- default (list "ReadwriteOnce") .accessModes | toYaml | nindent 4 }}
+    {{- default (list "ReadWriteOnce") .accessModes | toYaml | nindent 4 }}
   resources:
     requests:
       storage: {{ default "1Gi" .size }}
