@@ -13,7 +13,9 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  storageClassName: {{ default .storageClass $.Values.global.storageClass | default $.Values.global.defaultStorageClass }}
+  {{- with default .storageClass $.Values.global.storageClass | default $.Values.global.defaultStorageClass }}
+  storageClassName: {{ . }}
+  {{- end }}
   accessModes:
     {{- default (list "ReadWriteOnce") .accessModes | toYaml | nindent 4 }}
   resources:
